@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { toggleMenu } from '../redux/actions'
 import { Layout, Icon } from 'antd'
 
 const { Content } = Layout
@@ -8,7 +7,7 @@ const { Content } = Layout
 class UserPage extends Component {
   render() {
     return (
-      <span>UserPage</span>
+      <span>Messages</span>
     )
   }
 }

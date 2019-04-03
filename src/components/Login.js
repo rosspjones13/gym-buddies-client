@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Layout, Typography, Row, Col } from 'antd';
 import { connect } from 'react-redux'
+import { fetchingLoginUser } from '../redux/actions'
 
 const { Content } = Layout
 const { Title } = Typography
@@ -18,13 +19,7 @@ class Login extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        let foundUser = this.props.users.find(user => user.username === values.username)
-        if (foundUser && foundUser.password === values.password) {
-          this.props.currentUser(foundUser)
-        }
-        else {
-          alert('Wrong password or username!');
-        }
+        this.props.fetchingLoginUser(values.username, values.password)
       }
     });
   }
@@ -88,14 +83,14 @@ class Login extends Component {
 
 const mapStateToProps = state => {
   return {
-    users: state.users,
-    currentUser: state.currentUser,
+    // users: state.users,
+    // currentUser: state.currentUser,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentUser: (user) => { dispatch({type: "LOGIN_USER", user }) }
+    fetchingLoginUser: (username, password) => { dispatch(fetchingLoginUser(username, password)) }
   }
 }
 
