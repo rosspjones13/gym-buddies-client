@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { toggleMenu } from '../redux/actions'
+import { toggleMenu, fetchingUserBuddies } from '../redux/actions'
 import { Layout, Menu, Icon } from 'antd'
 
 const { Sider } = Layout
 
 class UserNav extends Component {
+  handleMessageClick = () => {
+    this.props.fetchingUserBuddies()
+  }
+
+
   render() {
     const { menuCollapse, toggleMenu } = this.props
     return (
@@ -19,17 +24,17 @@ class UserNav extends Component {
         >
           <Menu theme="light" mode="inline">
             <Menu.Item key="1">
-              <Icon type="team" />
+              <Icon type="team" spin={true}/>
               <span>Buddies</span>
             </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/messages">
-                <Icon type="message" />
+            <Menu.Item key="2" onClick={this.handleMessageClick}>
+              <Link to="/buddies">
+                <Icon type="message" spin={true}/>
                 <span>Messages</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="security-scan" />
+              <Icon type="security-scan" spin={true}/>
               <span>Search</span>
             </Menu.Item>
           </Menu>
@@ -39,7 +44,8 @@ class UserNav extends Component {
           type={menuCollapse ? 'menu-unfold' : 'menu-fold'}
           size="small"
           onClick={toggleMenu}
-          style={{ background: '#fff', maxHeight: 20, fontSize: 20, marginTop: '10px' }}
+          style={{ background: '#fff', maxHeight: 20, fontSize: 20, marginTop: '12px' }}
+          spin={true}
         />
       </Fragment>
     )
@@ -54,6 +60,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchingUserBuddies: () => { dispatch(fetchingUserBuddies()) },
     toggleMenu: () => { dispatch(toggleMenu()) }
   }
 }

@@ -1,22 +1,42 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Layout, Icon } from 'antd'
+import { fetchingBuddyMessages } from '../redux/actions'
+import BuddyList from '../components/BuddyList'
+import MessageList from '../components/MessageList'
+import { isEmpty } from 'lodash'
+import { Form, Layout, Input, Button, Row, Col } from 'antd'
 
 const { Content } = Layout
 
 class UserPage extends Component {
   render() {
+    const { userBuddies, buddyMessages } = this.props
+
     return (
-      <span>Messages</span>
+      <Layout style={{ background: "#fff" }}>
+        Buddies
+        {isEmpty(buddyMessages) ? <Content></Content> :
+        <MessageList />
+        }
+        <BuddyList />
+      </Layout>
     )
   }
 }
 
+
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    collapsed: state.menuCollapse
+    userBuddies: state.userBuddies,
+    buddyMessages: state.buddyMessages
   }
 }
 
-export default connect(mapStateToProps)(UserPage)
+const mapDispatchToProps = dispatch => {
+  return {
+    // fetchingBuddyMessages: (buddy) => { dispatch(fetchingBuddyMessages(buddy)) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)

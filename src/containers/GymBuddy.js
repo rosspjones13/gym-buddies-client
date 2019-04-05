@@ -37,7 +37,7 @@ class GymBuddy extends Component {
                   )
                 }}
               />
-              <Route exact path="/messages" render={() => {
+              <Route exact path="/buddies" render={() => {
                   return isEmpty(currentUser) ? <Redirect to="/login" /> : (
                     <Fragment>
                       <UserNav />

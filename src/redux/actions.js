@@ -6,6 +6,14 @@ export function currentUser(user){
   return { type: "FETCHED_LOGGED_USER", user }
 }
 
+export function currentBuddyMessages(messages){
+  return { type: "CURRENT_BUDDY_MESSAGES", messages }
+}
+
+export function currentUserBuddies(buddies){
+  return { type: "FETCHED_USER_BUDDIES", buddies }
+}
+
 export function fetchedUsers(users){
   return { type: "FETCHED_USERS", users }
 }
@@ -62,6 +70,49 @@ export function fetchingLoggedUser() {
       .then(res => res.json())
       .then(user => {
         dispatch(currentUser(user))
+      })
+    }
+  }
+  else {
+    return (dispatch) => {}
+  }
+}
+
+// export function fetchingBuddyMessages(buddy) {
+//   let token = localStorage.getItem('token')
+//   if (token) {
+//     return ( dispatch ) => {
+//       dispatch(loadingLoggedUser())
+//       fetch(Url() + `buddies/${buddy.id}/messages`, {
+//         headers: {
+//           "Authentication": `Bearer ${token}`
+//         }
+//       })
+//       .then(res => res.json())
+//       .then(messages => {
+//         debugger
+//         dispatch(currentBuddyMessages(messages))
+//       })
+//     }
+//   }
+//   else {
+//     return (dispatch) => {}
+//   }
+// }
+
+export function fetchingUserBuddies() {
+  let token = localStorage.getItem('token')
+  if (token) {
+    return ( dispatch ) => {
+      dispatch(loadingLoggedUser())
+      fetch(Url() + 'buddies', {
+        headers: {
+          "Authentication": `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(buddies => {
+        dispatch(currentUserBuddies(buddies))
       })
     }
   }

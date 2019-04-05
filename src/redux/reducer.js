@@ -23,6 +23,8 @@ const loadingReducer = ( state=false, action ) => {
       return false
     case "FETCHED_LOGGED_USER":
       return false
+    case "FETCHED_USER_BUDDIES":
+      return false
     default:
       return state
   }
@@ -32,6 +34,24 @@ const usersReducer = ( state = [], action ) => {
   switch (action.type) {
     case "FETCHED_USERS":
       return action.user
+    default:
+      return state
+  }
+}
+
+const userBuddiesReducer = ( state = [], action ) => {
+  switch (action.type) {
+    case "FETCHED_USER_BUDDIES":
+      return action.buddies
+    default:
+      return state
+  }
+}
+
+const buddyMessagesReducer = ( state = [], action ) => {
+  switch (action.type) {
+    case "CURRENT_BUDDY_MESSAGES":
+      return action.messages
     default:
       return state
   }
@@ -50,7 +70,9 @@ const rootReducer = combineReducers({
   users: usersReducer,
   loading: loadingReducer,
   currentUser: currentUserReducer,
-  menuCollapse: menuCollapseReducer
+  menuCollapse: menuCollapseReducer,
+  userBuddies: userBuddiesReducer,
+  buddyMessages: buddyMessagesReducer
 })
 
 export default rootReducer
