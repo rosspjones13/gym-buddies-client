@@ -15,12 +15,6 @@ class UserPage extends Component {
     // this.bottom = React.createRef()
   }
 
-  componentDidMount() {
-    fetch(`http://localhost:3000/api/v1/messages`)
-      .then(res => res.json())
-      .then(messages => this.setState({ messages }))
-  }
-
   // componentDidUpdate() {
   //   this.bottom.current.scrollIntoView();
   // }

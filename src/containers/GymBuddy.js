@@ -5,9 +5,7 @@ import UserPage from './UserPage'
 import MessagePage from './MessagePage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
-import { fetchingLoggedUser } from '../redux/actions'
-import { initializeUserCable } from '../redux/actions'
-import { currentUserSubscription } from '../redux/actions'
+import { fetchingLoggedUser } from '../redux/actions/currentUser'
 import { isEmpty } from 'lodash'
 import { Layout, Spin } from 'antd'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
@@ -84,8 +82,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchingLoggedUser: () => { dispatch(fetchingLoggedUser()) },
-    initializeUserCable: (cable) => { dispatch(initializeUserCable(cable)) },
-    currentUserSubscription: (subscription) => { dispatch(currentUserSubscription(subscription)) }
   }
 }
 

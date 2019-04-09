@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { ActionCableConsumer } from 'react-actioncable-provider'
-import { currentBuddyMessages } from '../redux/actions'
+import { currentBuddyMessages } from '../redux/actions/currentUser'
 import { Layout, Menu, Avatar } from 'antd'
 
 const { Sider } = Layout

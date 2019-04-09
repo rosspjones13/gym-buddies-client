@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import ActionCable from 'action-cable-react-jwt'
-import { currentUserSubscription } from '../redux/actions'
 import { Layout, List, Avatar, Row, Col } from 'antd'
 import NewMessageForm from './NewMessageForm';
 import { ActionCableConsumer } from 'react-actioncable-provider';

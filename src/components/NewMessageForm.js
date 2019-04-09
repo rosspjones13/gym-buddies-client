@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { currentUserSubscription } from '../redux/actions'
-import { postNewMessage } from '../redux/actions'
+import { postNewMessage } from '../redux/actions/newMessage'
 import { Layout, Form, Input, Button, Row, Col } from 'antd'
 
 const { Footer } = Layout
@@ -57,7 +56,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentUserSubscription: (message) => { dispatch(currentUserSubscription(message)) },
     postNewMessage: (newMessage) => { dispatch(postNewMessage(newMessage)) }
   }
 }

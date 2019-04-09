@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Layout, Typography, Row, Col } from 'antd';
 import { connect } from 'react-redux'
-import { fetchingLoginUser } from '../redux/actions'
+import { fetchingLoginUser } from '../redux/actions/currentUser'
 
 const { Content } = Layout
 const { Title } = Typography

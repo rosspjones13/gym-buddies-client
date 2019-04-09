@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { toggleMenu, fetchingUserBuddies } from '../redux/actions'
+import { fetchingUserBuddies } from '../redux/actions/currentUser'
+import { toggleMenu } from '../redux/actions/menu'
 import { Layout, Menu, Icon } from 'antd'
 
 const { Sider } = Layout
