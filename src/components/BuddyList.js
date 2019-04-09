@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { ActionCableConsumer } from 'react-actioncable-provider'
 import { currentBuddyMessages } from '../redux/actions'
 import { Layout, Menu, Avatar } from 'antd'
 
@@ -16,11 +18,15 @@ class BuddyList extends Component {
       <Sider style={{ background: "#fff" }}>
         <Menu>
           {userBuddies.map(buddy => (
-          <Menu.Item 
+            <Menu.Item
             key={buddy.id} 
-            onClick={() => currentBuddyMessages(buddy.messages)}>
-            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-            {this.showBuddy(buddy).first_name}
+            onClick={() => currentBuddyMessages(buddy.id, buddy.messages)}>
+          
+            <Link to={`/buddies/${buddy.id}`}>
+              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              {this.showBuddy(buddy).first_name}
+            </Link>
+       
           </Menu.Item>
           ))}
         </Menu>
@@ -38,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentBuddyMessages: (messages) => { dispatch(currentBuddyMessages(messages)) }
+    currentBuddyMessages: (buddy_id, messages) => { dispatch(currentBuddyMessages(buddy_id, messages)) }
   }
 }
 

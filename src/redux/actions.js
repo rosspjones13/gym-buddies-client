@@ -6,8 +6,8 @@ export function currentUser(user){
   return { type: "FETCHED_LOGGED_USER", user }
 }
 
-export function currentBuddyMessages(messages){
-  return { type: "CURRENT_BUDDY_MESSAGES", messages }
+export function currentBuddyMessages(buddy_id, messages){
+  return { type: "CURRENT_BUDDY_MESSAGES", buddy_id, messages }
 }
 
 export function currentUserBuddies(buddies){
@@ -34,6 +34,14 @@ export function loadingLoggedUser(){
   return { type: "LOADING_LOGGED_USER" }
 }
 
+export function initializeUserCable(cable) {
+  return { type: "CREATED_USER_ACTION_CABLE", cable}
+}
+
+export function currentUserSubscription(subscription) {
+  return { type: "CREATED_USER_ACTION_SUBSCRIPTION", subscription}
+}
+
 export function fetchingLoginUser(username, password) {
   return ( dispatch ) => {
     dispatch(loadingUsers())
@@ -50,6 +58,7 @@ export function fetchingLoginUser(username, password) {
       if (data.authenticated) {
         dispatch(fetchedLoginUser(data.user))
         localStorage.setItem('token', data.token)
+        document.cookie = `token=${data.token}`
       } else {
         alert('Incorrect username or password')
       }
@@ -69,6 +78,7 @@ export function fetchingLoggedUser() {
       })
       .then(res => res.json())
       .then(user => {
+        document.cookie = `token=${token}`
         dispatch(currentUser(user))
       })
     }
@@ -118,6 +128,22 @@ export function fetchingUserBuddies() {
   }
   else {
     return (dispatch) => {}
+  }
+}
+
+export function postNewMessage(newMessage) {
+  return (dispatch) => {
+    fetch('http://localhost:3000/api/v1/messages', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(newMessage)
+    })
+    // .then(res => res.json())
+    // .then(retur => {debugger})
+    // .then(message => dispatch())
   }
 }
 

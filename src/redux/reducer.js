@@ -51,7 +51,7 @@ const userBuddiesReducer = ( state = [], action ) => {
 const buddyMessagesReducer = ( state = [], action ) => {
   switch (action.type) {
     case "CURRENT_BUDDY_MESSAGES":
-      return action.messages
+      return {buddy_id: action.buddy_id, messages: action.messages}
     default:
       return state
   }
@@ -66,13 +66,33 @@ const menuCollapseReducer = ( state = true, action ) => {
   }
 }
 
+const initializeCableReducer = ( state = {}, action ) => {
+  switch (action.type) {
+    case "CREATED_USER_ACTION_CABLE":
+      return action.cable
+    default:
+      return state
+  }
+}
+
+const currentUserSubReducer = ( state = {}, action ) => {
+  switch (action.type) {
+    case "CREATED_USER_ACTION_SUBSCRIPTION":
+      return action.subscription
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   users: usersReducer,
   loading: loadingReducer,
   currentUser: currentUserReducer,
   menuCollapse: menuCollapseReducer,
   userBuddies: userBuddiesReducer,
-  buddyMessages: buddyMessagesReducer
+  buddyMessages: buddyMessagesReducer,
+  // userSubscription: currentUserSubReducer
+  cable: initializeCableReducer
 })
 
 export default rootReducer

@@ -1,54 +1,57 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { currentBuddyMessages } from '../redux/actions'
-import InfiniteScroll from 'react-infinite-scroller';
-import { Layout, Form, Input, Button, List, Avatar, Row, Col } from 'antd'
+// import ActionCable from 'action-cable-react-jwt'
+import { currentUserSubscription } from '../redux/actions'
+import { Layout, List, Avatar, Row, Col } from 'antd'
+import NewMessageForm from './NewMessageForm';
+import { ActionCableConsumer } from 'react-actioncable-provider';
 
-const { Content, Footer } = Layout
+const { Content } = Layout
 
 class MessageList extends Component {
-
+  // constructor(params) {
+    
+  // }
   formatDate(date) {
     let newD = new Date(date)
     return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
   }
+
+  handleReceivedMessage = response => {
+    debugger
+    
+  };
   
   render() {
     const { buddyMessages } = this.props
     return (
-      <Layout style={{ background: "#fff" }}>
-        <Row>
+      <Content style={{ background: "#fff" }}>
+        <ActionCableConsumer
+          channel={{ channel: 'MessagesChannel', buddy: buddyMessages.buddy_id }}
+          onReceived={this.handleReceivedMessage}
+        />
+        <Row type="flex" align="top">
           <Col span={16} offset={4}>
-            <Content type="flex" style={{ background: "#fff", height: "50em" }}>
-                  <List
-                    style={{ maxWidth: "75em", justifySelf: 'center' }}
-                    dataSource={buddyMessages}
-                    renderItem={message => (
-                      <List.Item key={message.id}>
-                        <List.Item.Meta
-                          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                          title={message.content}
-                          description={"USER FIRSTNAME"}
-                        />
-                        <div>@{this.formatDate(message.created_at)}</div>
-                      </List.Item>
-                    )}
-                  />
-
-            </Content>
-            <Footer style={{ background: "#fff" }}>
-              <Form layout="inline">
-                <Form.Item>
-                  <Input style={{ width: "50em" }} className="new-message" placeholder="Start typing..." />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" className="message-button">Send</Button>
-                </Form.Item>
-              </Form>
-            </Footer>
+            <div style={{ height: "60em", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
+              <List
+                style={{ maxWidth: "75em", justifySelf: 'center' }}
+                dataSource={buddyMessages.messages}
+                renderItem={message => (
+                  <List.Item key={message.id}>
+                    <List.Item.Meta
+                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      title={message.content}
+                      description={"USER FIRSTNAME"}
+                      />
+                    <div>@{this.formatDate(message.created_at)}</div>
+                  </List.Item>
+                )}
+              />
+              
+            </div>
           </Col>
         </Row>
-      </Layout>
+      </Content>
     )
   }
 }
@@ -62,7 +65,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // currentBuddyMessages: (messages) => { dispatch(currentBuddyMessages(messages)) }
+    
   }
 }
 

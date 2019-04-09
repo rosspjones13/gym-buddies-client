@@ -19,7 +19,7 @@ class Login extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.fetchingLoginUser(values.username, values.password)
+        this.props.fetchingLoginUser(this.state.username, this.state.password)
       }
     });
   }
@@ -38,7 +38,7 @@ class Login extends Component {
             >
               User Login
             </Title>
-            <Form style={{ }} onSubmit={ this.handleSubmit } id="loginForm">
+            <Form onSubmit={ this.handleSubmit } id="loginForm">
               <Form.Item
                 validateStatus={ usernameError ? 'error' : '' }
                 help={ usernameError || '' }

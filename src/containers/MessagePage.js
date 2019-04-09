@@ -1,23 +1,49 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { fetchingBuddyMessages } from '../redux/actions'
 import BuddyList from '../components/BuddyList'
 import MessageList from '../components/MessageList'
+import NewMessageForm from '../components/NewMessageForm'
 import { isEmpty } from 'lodash'
-import { Form, Layout, Input, Button, Row, Col } from 'antd'
+import { Layout } from 'antd'
+import { ActionCableConsumer } from 'react-actioncable-provider';
 
 const { Content } = Layout
 
 class UserPage extends Component {
-  render() {
-    const { userBuddies, buddyMessages } = this.props
+  constructor() {
+    super()
+    // this.bottom = React.createRef()
+  }
 
+  componentDidMount() {
+    fetch(`http://localhost:3000/api/v1/messages`)
+      .then(res => res.json())
+      .then(messages => this.setState({ messages }))
+  }
+
+  // componentDidUpdate() {
+  //   this.bottom.current.scrollIntoView();
+  // }
+
+  handleReceivedBuddy = response => {
+    console.log('received buddy info')
+  }
+
+  render() {
+    let { buddyMessages, currentUser } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
+      <ActionCableConsumer
+        channel={{ channel: 'BuddiesChannel', user: currentUser.id }}
+        onReceived={this.handleReceivedBuddy}
+      />
         Buddies
-        {isEmpty(buddyMessages) ? <Content></Content> :
-        <MessageList />
-        }
+        {isEmpty(buddyMessages) ? <Content></Content> : 
+        <Layout style={{ background: "#fff" }}>
+          <MessageList />
+          <NewMessageForm />
+        </Layout>
+      }
         <BuddyList />
       </Layout>
     )

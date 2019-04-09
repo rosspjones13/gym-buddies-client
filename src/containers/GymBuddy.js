@@ -6,19 +6,31 @@ import MessagePage from './MessagePage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions'
+import { initializeUserCable } from '../redux/actions'
+import { currentUserSubscription } from '../redux/actions'
 import { isEmpty } from 'lodash'
 import { Layout, Spin } from 'antd'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 const { Footer } = Layout
 
+
 class GymBuddy extends Component {
   componentDidMount(){
     this.props.fetchingLoggedUser()
   }
 
+  userLoggedIn = () => {
+  //   const { initializeUserCable } = this.props
+  //   const cable = ActionCable.createConsumer('ws://localhost:3000/api/v1/cable')
+  //   initializeUserCable(cable)
+  }
+
   render() {
-    const { currentUser, loading } = this.props
+    const { currentUser, loading, cable } = this.props
+    // if (!isEmpty(currentUser) && isEmpty(cable)) {
+    //   this.userLoggedIn()
+    // }
     return (
       <Layout style={{ height: '100vh' }}>
         <NavBar />
@@ -37,7 +49,7 @@ class GymBuddy extends Component {
                   )
                 }}
               />
-              <Route exact path="/buddies" render={() => {
+              <Route path="/buddies" render={() => {
                   return isEmpty(currentUser) ? <Redirect to="/login" /> : (
                     <Fragment>
                       <UserNav />
@@ -64,13 +76,16 @@ class GymBuddy extends Component {
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    loading: state.loading
+    loading: state.loading,
+    cable: state.cable
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchingLoggedUser: () => { dispatch(fetchingLoggedUser()) }
+    fetchingLoggedUser: () => { dispatch(fetchingLoggedUser()) },
+    initializeUserCable: (cable) => { dispatch(initializeUserCable(cable)) },
+    currentUserSubscription: (subscription) => { dispatch(currentUserSubscription(subscription)) }
   }
 }
 
