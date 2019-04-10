@@ -18,17 +18,8 @@ class GymBuddy extends Component {
     this.props.fetchingLoggedUser()
   }
 
-  userLoggedIn = () => {
-  //   const { initializeUserCable } = this.props
-  //   const cable = ActionCable.createConsumer('ws://localhost:3000/api/v1/cable')
-  //   initializeUserCable(cable)
-  }
-
   render() {
-    const { currentUser, loading, cable } = this.props
-    // if (!isEmpty(currentUser) && isEmpty(cable)) {
-    //   this.userLoggedIn()
-    // }
+    const { currentUser, loading } = this.props
     return (
       <Layout style={{ height: '100vh' }}>
         <NavBar />

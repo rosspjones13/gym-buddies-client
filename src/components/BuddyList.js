@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { ActionCableConsumer } from 'react-actioncable-provider'
+// import { ActionCableConsumer } from 'react-actioncable-provider'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
 import { Layout, Menu, Avatar } from 'antd'
 
@@ -9,7 +9,7 @@ const { Sider } = Layout
 
 class BuddyList extends Component {
   showBuddy = buddy => {
-    return buddy.get_requester.id === this.props.currentUser.id ? buddy.get_requestee : buddy.get_requester
+    return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
   }
 
   render() {
@@ -19,10 +19,10 @@ class BuddyList extends Component {
         <Menu>
           {userBuddies.map(buddy => (
             <Menu.Item
-            key={buddy.id} 
-            onClick={() => currentBuddyMessages(buddy.id, buddy.messages)}>
+            key={buddy.buddy.id} 
+            onClick={() => currentBuddyMessages(buddy)}>
           
-            <Link to={`/buddies/${buddy.id}`}>
+            <Link to={`/buddies/${buddy.buddy.id}`}>
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               {this.showBuddy(buddy).first_name}
             </Link>
@@ -44,7 +44,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentBuddyMessages: (buddy_id, messages) => { dispatch(currentBuddyMessages(buddy_id, messages)) }
+    currentBuddyMessages: (buddy) => { dispatch(currentBuddyMessages(buddy)) }
   }
 }
 

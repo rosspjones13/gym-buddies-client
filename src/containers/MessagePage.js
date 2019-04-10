@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import BuddyList from '../components/BuddyList'
 import MessageList from '../components/MessageList'
@@ -9,22 +9,13 @@ import { ActionCableConsumer } from 'react-actioncable-provider';
 
 const { Content } = Layout
 
-class UserPage extends Component {
-  constructor() {
-    super()
-    // this.bottom = React.createRef()
-  }
-
-  // componentDidUpdate() {
-  //   this.bottom.current.scrollIntoView();
-  // }
-
+class MessagePage extends Component {
   handleReceivedBuddy = response => {
     console.log('received buddy info')
   }
 
   render() {
-    let { buddyMessages, currentUser } = this.props
+    let { currentBuddy, currentUser } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
       <ActionCableConsumer
@@ -32,7 +23,7 @@ class UserPage extends Component {
         onReceived={this.handleReceivedBuddy}
       />
         Buddies
-        {isEmpty(buddyMessages) ? <Content></Content> : 
+        {isEmpty(currentBuddy) ? <Content></Content> : 
         <Layout style={{ background: "#fff" }}>
           <MessageList />
           <NewMessageForm />
@@ -49,14 +40,14 @@ const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
     userBuddies: state.userBuddies,
-    buddyMessages: state.buddyMessages
+    currentBuddy: state.currentBuddy
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    // fetchingBuddyMessages: (buddy) => { dispatch(fetchingBuddyMessages(buddy)) }
+    // fetchingcurrentBuddy: (buddy) => { dispatch(fetchingcurrentBuddy(buddy)) }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(mapStateToProps, mapDispatchToProps)(MessagePage)

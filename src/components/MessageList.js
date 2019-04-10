@@ -1,31 +1,44 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Layout, List, Avatar, Row, Col } from 'antd'
-import NewMessageForm from './NewMessageForm';
 import { ActionCableConsumer } from 'react-actioncable-provider';
+import { receiveBuddyMessages } from '../redux/actions/messages'
+import { Layout, List, Avatar, Row, Col } from 'antd'
 
 const { Content } = Layout
 
 class MessageList extends Component {
-  // constructor(params) {
-    
-  // }
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
   formatDate(date) {
     let newD = new Date(date)
     return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
   }
 
-  handleReceivedMessage = response => {
-    debugger
-    
+  handleReceivedMessage = newMessage => {
+    this.props.receiveBuddyMessages(newMessage)
   };
+
+  findUserName = user_id => {
+    debugger
+    return user_id
+  } 
   
   render() {
-    const { buddyMessages } = this.props
+    const { currentBuddy } = this.props
     return (
       <Content style={{ background: "#fff" }}>
         <ActionCableConsumer
-          channel={{ channel: 'MessagesChannel', buddy: buddyMessages.buddy_id }}
+          channel={{ channel: 'MessagesChannel', buddy: currentBuddy.buddy.id }}
           onReceived={this.handleReceivedMessage}
         />
         <Row type="flex" align="top">
@@ -33,19 +46,21 @@ class MessageList extends Component {
             <div style={{ height: "60em", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
               <List
                 style={{ maxWidth: "75em", justifySelf: 'center' }}
-                dataSource={buddyMessages.messages}
+                dataSource={currentBuddy.messages}
                 renderItem={message => (
                   <List.Item key={message.id}>
                     <List.Item.Meta
                       avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                       title={message.content}
-                      description={"USER FIRSTNAME"}
+                      description={message.username.first_name}
                       />
                     <div>@{this.formatDate(message.created_at)}</div>
+                    <div style={{ float: "left", clear: "both" }}
+                      ref={(el) => { this.messagesEnd = el; }}>
+                    </div>
                   </List.Item>
                 )}
               />
-              
             </div>
           </Col>
         </Row>
@@ -57,13 +72,13 @@ class MessageList extends Component {
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    buddyMessages: state.buddyMessages
+    currentBuddy: state.currentBuddy
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    
+    receiveBuddyMessages: (newMessage) => {dispatch(receiveBuddyMessages(newMessage))}
   }
 }
 
