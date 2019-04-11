@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { postNewMessage } from '../redux/actions/messages'
-import { Layout, Form, Input, Button } from 'antd'
+import { Layout, Input, Row, Col } from 'antd'
 
 const { Footer } = Layout
+const Search = Input.Search
 
 class NewMessageForm extends Component {
   constructor() {
@@ -13,11 +14,10 @@ class NewMessageForm extends Component {
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
+  handleSubmit = () => {
     const { message } = this.state
     const { currentBuddy, postNewMessage, currentUser } = this.props
-    const newMessage = { buddy_id: currentBuddy.buddy.id, user_id: currentUser.id, content: message }
+    const newMessage = { buddy_id: currentBuddy.buddy.id, user_id: currentUser.user.id, content: message }
     this.setState({
       message: ""
     })
@@ -27,20 +27,18 @@ class NewMessageForm extends Component {
   render() {
     return (
       <Footer style={{ background: "#fff", textAlign: 'center' }}>
-        <Form layout="inline" onSubmit={this.handleSubmit}>
-          <Form.Item>
-            <Input 
-              style={{ width: "30em" }} 
-              className="new-message" 
+        <Row>
+          <Col span={16} offset={4}>
+            <Search 
+              className="new-meessage" 
               placeholder="Start typing..."
+              enterButton="Send"
               value={this.state.message}
               onChange={(e) => this.setState({message: e.target.value})}
+              onSearch={() => this.handleSubmit()}
             />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" className="message-button">Send</Button>
-          </Form.Item>
-        </Form>
+          </Col>
+        </Row>
       </Footer>
     )
   }

@@ -5,13 +5,12 @@ import UserPage from './UserPage'
 import MessagePage from './MessagePage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
-import { fetchingLoggedUser } from '../redux/actions/currentUser'
+import { fetchingLoggedUser } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
 import { Layout, Spin } from 'antd'
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 const { Footer } = Layout
-
 
 class GymBuddy extends Component {
   componentDidMount(){
@@ -66,7 +65,6 @@ const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
     loading: state.loading,
-    cable: state.cable
   }
 }
 

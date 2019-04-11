@@ -1,11 +1,29 @@
+import { apiUrl } from '../../constants/fetchUrls'
+
+export function currentUser(user) {
+  return { type: "FETCHED_LOGGED_USER", user }
+}
+
 export function loadingUsers() {
   return { type: "LOADING_USERS" }
+}
+
+export function logoutUser() {
+  return { type: "LOGOUT_USER"}
+}
+
+export function loadingLoggedUser() {
+  return { type: "LOADING_LOGGED_USER" }
+}
+
+export function fetchedLoginUser(user, goals) {
+  return { type: "FETCHED_LOGIN_USER", user, goals }
 }
 
 export function fetchingLoginUser(username, password) {
   return (dispatch) => {
     dispatch(loadingUsers())
-    fetch(Url() + 'login', {
+    fetch(apiUrl + 'login', {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify({
@@ -25,3 +43,26 @@ export function fetchingLoginUser(username, password) {
       })
   }
 }
+
+export function fetchingLoggedUser() {
+  let token = localStorage.getItem('token')
+  if (token) {
+    return (dispatch) => {
+      dispatch(loadingLoggedUser())
+      fetch(apiUrl + 'profile', {
+        headers: {
+          "Authentication": `Bearer ${token}`
+        }
+      })
+        .then(res => res.json())
+        .then(user => {
+          document.cookie = `token=${token}`
+          dispatch(currentUser(user))
+        })
+    }
+  }
+  else {
+    return (dispatch) => { }
+  }
+}
+

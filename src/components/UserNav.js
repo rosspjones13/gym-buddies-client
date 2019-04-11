@@ -25,8 +25,10 @@ class UserNav extends Component {
         >
           <Menu theme="light" mode="inline">
             <Menu.Item key="1">
-              <Icon type="team" spin={true}/>
-              <span>Buddies</span>
+              <Link to="/profile">
+                <Icon type="team" spin={true}/>
+                <span>Buddies</span>
+              </Link>
             </Menu.Item>
             <Menu.Item key="2" onClick={this.handleMessageClick}>
               <Link to="/buddies">

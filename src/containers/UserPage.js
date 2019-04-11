@@ -1,12 +1,57 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-// import { Layout } from 'antd'
+import WorkoutCalendar from '../components/WorkoutCalendar'
+import { Layout, Card, Row, Col } from 'antd'
 
+const { Content } = Layout
 
 class UserPage extends Component {
+  formatDate = (date) => {
+    return new Date(date).toLocaleDateString()
+  }
+
+  formatAchievement = (goal) => {
+    if(goal.goal_type === "time"){
+      let minutes = Math.floor(goal.measurable_achievement / 60)
+      let seconds = goal.measurable_achievement - minutes * 60
+      return `${minutes}:${seconds}/mile`
+    }
+    else {
+      return `${goal.measurable_achievement}lbs`
+    }
+  }
+
+  capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   render() {
+    const { currentUser } = this.props
     return (
-      <span>UserPage</span>
+      <Layout style={{ background: '#fff'}}>
+        <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
+          <Row type="flex" justify="space-around" style={{ marginTop: '30px', justifyContent: 'middle' }}>
+            <Col span={4}>
+              {currentUser.goals.map(goal => {
+                let goal_type = this.capitalizeFirstLetter(goal.goal_type) + ' Goal'
+                return (
+                  <Card
+                    key={goal.id}
+                    title={goal_type}
+                    style={{ textAlign: 'center' }}
+                  >
+                    <p>{this.formatAchievement(goal)}</p>
+                    <p>by: {this.formatDate(goal.achieve_date)}</p>
+                  </Card>
+                )
+              })}
+            </Col>
+            <Col span={16}>
+              <WorkoutCalendar />
+            </Col>
+          </Row>
+        </Content>
+      </Layout>
     )
   }
 }

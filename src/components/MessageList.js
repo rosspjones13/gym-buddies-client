@@ -43,7 +43,7 @@ class MessageList extends Component {
         />
         <Row type="flex" align="top">
           <Col span={16} offset={4}>
-            <div style={{ height: "60em", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
+            <div style={{ height: "45em", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
               <List
                 style={{ maxWidth: "75em", justifySelf: 'center' }}
                 dataSource={currentBuddy.messages}

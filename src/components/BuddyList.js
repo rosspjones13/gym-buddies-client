@@ -9,7 +9,7 @@ const { Sider } = Layout
 
 class BuddyList extends Component {
   showBuddy = buddy => {
-    return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
+    return buddy.requester.username === this.props.currentUser.user.username ? buddy.requestee : buddy.requester
   }
 
   render() {
