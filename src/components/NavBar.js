@@ -4,7 +4,7 @@ import { logoutUser } from '../redux/actions/loginUser'
 import { Menu, Icon, Typography, Layout } from 'antd';
 
 const { Header } = Layout
-const { Title } = Typography
+const { Title, Text } = Typography
 
 class NavBar extends Component {
   handleSubmit = (e) => {
@@ -28,7 +28,12 @@ class NavBar extends Component {
             <Title level={2} style={{ float: 'center', color: 'white' }}>Gym Buddies</Title>
           </Menu.Item>
           <Menu.Item style={{ float: 'right' }} onClick={this.handleLogout}>
-            <Icon type="setting" theme="filled" spin="true" style={{ fontSize: 20}}/>
+            <Text style={{ float: 'right', color: 'white', fontSize: 20 }}>Logout</Text>
+            <Icon 
+              type="logout" 
+              spin="true" 
+              style={{ fontSize: 20 }} 
+            />
           </Menu.Item>
         </Menu>
       </Header>

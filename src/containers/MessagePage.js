@@ -22,7 +22,6 @@ class MessagePage extends Component {
         channel={{ channel: 'BuddiesChannel', user: currentUser.id }}
         onReceived={this.handleReceivedBuddy}
       />
-        Buddies
         {isEmpty(currentBuddy) ? <Content></Content> : 
         <Layout style={{ background: "#fff" }}>
           <MessageList />

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-// import { ActionCableConsumer } from 'react-actioncable-provider'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
 import { Layout, Menu, Avatar } from 'antd'
 
@@ -9,7 +8,7 @@ const { Sider } = Layout
 
 class BuddyList extends Component {
   showBuddy = buddy => {
-    return buddy.requester.username === this.props.currentUser.user.username ? buddy.requestee : buddy.requester
+    return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
   }
 
   render() {
