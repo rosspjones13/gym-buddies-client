@@ -6,7 +6,7 @@ import { usersReducer } from './allUsers'
 import { allExercisesReducer } from './exercisesReducer';
 
 const rootReducer = combineReducers({
-  users: usersReducer,
+  allUsers: usersReducer,
   loading: loadingReducer,
   currentUser: currentUserReducer,
   userGoals: userGoalsReducer,

@@ -27,11 +27,6 @@ class MessageList extends Component {
   handleReceivedMessage = newMessage => {
     this.props.receiveBuddyMessages(newMessage)
   };
-
-  findUserName = user_id => {
-    debugger
-    return user_id
-  } 
   
   render() {
     const { currentBuddy } = this.props
@@ -50,7 +45,7 @@ class MessageList extends Component {
                 renderItem={message => (
                   <List.Item key={message.id}>
                     <List.Item.Meta
-                      avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                      avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{message.username.first_name[0]}</Avatar>}
                       title={message.content}
                       description={message.username.first_name}
                       />

@@ -1,16 +1,20 @@
-import { Url } from '../../constants/fetchUrls'
+import { apiUrl } from '../../constants/fetchUrls'
 
 export function fetchedUsers(users){
-  return { type: "FETCHED_USERS", users }
+  return { type: "FETCHED_ALL_USERS", users }
 }
 
-// export function fetchingUsers() {
-//   return ( dispatch ) => {
-//     dispatch(loadingUsers())
-//     fetch(usersUrl())
-//     .then(res => res.json())
-//     .then(users => {
-//       dispatch(fetchedUsers(users))
-//     })
-//   }
-// }
+export function loadingUsers() {
+  return { type: "LOADING_ALL_USERS" }
+}
+
+export function fetchingUsers() {
+  return ( dispatch ) => {
+    dispatch(loadingUsers())
+    fetch(apiUrl + 'users')
+    .then(res => res.json())
+    .then(users => {
+      dispatch(fetchedUsers(users))
+    })
+  }
+}

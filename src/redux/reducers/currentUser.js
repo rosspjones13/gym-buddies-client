@@ -22,12 +22,15 @@ export const userGoalsReducer = (state = {}, action) => {
   }
 }
 
-export const userWorkoutsReducer = (state = {}, action) => {
+export const userWorkoutsReducer = (state = [], action) => {
   switch (action.type) {
     case "FETCHED_LOGIN_USER":
       return action.user.workouts
     case "FETCHED_LOGGED_USER":
       return action.user.workouts
+    case "UPDATE_USER_WORKOUTS":
+      action.newWorkout.id = state.length
+      return [ ...state, {workout: action.newWorkout, exercise: action.exercise} ]
     default:
       return state
   }

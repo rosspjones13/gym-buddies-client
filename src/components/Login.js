@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Layout, Typography, Row, Col } from 'antd';
 import { connect } from 'react-redux'
 import { fetchingLoginUser } from '../redux/actions/loginUser'
+import '../styles/Login.css'
 
 const { Content } = Layout
 const { Title } = Typography
@@ -29,12 +30,26 @@ class Login extends Component {
     const usernameError = isFieldTouched('username') && getFieldError('username');
     const passwordError = isFieldTouched('password') && getFieldError('password');    
     return (
-      <Row type="flex" justify="center">
-        <Col span={6}>
-          <Content className="login-layout" style={{ marginTop: '250px', marginBottom: '450px', background: 'clear', padding: '0 50px' }}>
+      <Content 
+        className="login-layout"
+        style={{ height: '100%' }}    
+      >
+        <div className="login-background" 
+          style={{
+            height: '100%',
+            position: 'relative',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            overflow: 'hidden'
+          }}
+        >
+        <Row type="flex" justify="center">
+            <Col span={6} style={{ marginTop: '250px', 
+             marginBottom: '450px' }}>
             <Title 
               level={2} 
-              style={{ textAlign: 'center', color: 'black', marginBottom: '15px' }}
+                style={{ textAlign: 'center', color: 'white', marginBottom: '15px' }}
             >
               User Login
             </Title>
@@ -61,7 +76,7 @@ class Login extends Component {
                   rules: [{ required: true, message: 'Please input your Password!' }],
                 })(
                   <Input 
-                    prefix={ <Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} /> } 
+                    prefix={ <Icon type="lock" /> } 
                     type="password" 
                     placeholder="Password" 
                     onChange={ e => this.setState({ password: e.target.value }) }
@@ -74,9 +89,10 @@ class Login extends Component {
                 </Button>
               </Form.Item>
             </Form>
-          </Content>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+        </div>
+      </Content>
     )
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import WorkoutCalendar from '../components/WorkoutCalendar'
+import { ActionCableConsumer } from 'react-actioncable-provider';
 import { Layout, Card, Row, Col, Icon } from 'antd'
 
 const { Content } = Layout
@@ -25,10 +26,18 @@ class UserPage extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
+  handleReceivedBuddy = response => {
+    console.log('received buddy info' + response)
+  }
+
   render() {
-    const { userGoals } = this.props
+    const { userGoals, currentUser } = this.props
     return (
       <Layout style={{ background: '#fff'}}>
+        <ActionCableConsumer
+          channel={{ channel: 'BuddiesChannel', user: currentUser.id }}
+          onReceived={this.handleReceivedBuddy}
+        />
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
           <Row type="flex" justify="space-around" style={{ marginTop: '30px', justifyContent: 'middle' }}>
             <Col span={3}>

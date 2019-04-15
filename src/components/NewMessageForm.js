@@ -30,7 +30,7 @@ class NewMessageForm extends Component {
         <Row>
           <Col span={16} offset={4}>
             <Search 
-              className="new-meessage" 
+              className="new-message" 
               placeholder="Start typing..."
               enterButton="Send"
               value={this.state.message}

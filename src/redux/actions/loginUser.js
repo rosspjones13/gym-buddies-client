@@ -4,16 +4,12 @@ export function currentUser(user) {
   return { type: "FETCHED_LOGGED_USER", user }
 }
 
-export function loadingUsers() {
-  return { type: "LOADING_USERS" }
+export function loadingUser() {
+  return { type: "LOADING_USER" }
 }
 
 export function logoutUser() {
   return { type: "LOGOUT_USER"}
-}
-
-export function loadingLoggedUser() {
-  return { type: "LOADING_LOGGED_USER" }
 }
 
 export function fetchedLoginUser(user, goals) {
@@ -22,7 +18,7 @@ export function fetchedLoginUser(user, goals) {
 
 export function fetchingLoginUser(username, password) {
   return (dispatch) => {
-    dispatch(loadingUsers())
+    dispatch(loadingUser())
     fetch(apiUrl + 'login', {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
@@ -48,7 +44,7 @@ export function fetchingLoggedUser() {
   let token = localStorage.getItem('token')
   if (token) {
     return (dispatch) => {
-      dispatch(loadingLoggedUser())
+      dispatch(loadingUser())
       fetch(apiUrl + 'profile', {
         headers: {
           "Authentication": `Bearer ${token}`

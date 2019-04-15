@@ -8,10 +8,9 @@ import { Layout, Menu, Icon } from 'antd'
 const { Sider } = Layout
 
 class UserNav extends Component {
-  handleMessageClick = () => {
-    this.props.fetchingUserBuddies()
-  }
-
+  // handleMessageClick = () => {
+  //   this.props.fetchingUserBuddies()
+  // }
 
   render() {
     const { menuCollapse, toggleMenu } = this.props
@@ -26,29 +25,30 @@ class UserNav extends Component {
           <Menu theme="light" mode="inline">
             <Menu.Item key="1">
               <Link to="/profile">
-                <Icon type="team" spin={true}/>
-                <span>Buddies</span>
+                <Icon type="calendar" style={{ fontSize: 20 }}/>
+                <span>My Workouts</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="2" onClick={this.handleMessageClick}>
-              <Link to="/buddies">
-                <Icon type="message" spin={true}/>
+              <Link to="/messages">
+                <Icon type="message" style={{ fontSize: 20 }}/>
                 <span>Messages</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
-              <Icon type="security-scan" spin={true}/>
-              <span>Search</span>
+              <Link to="/search">
+                <Icon type="usergroup-add" style={{ fontSize: 20 }}/>
+                <span>Find Buddies</span>
+              </Link>
             </Menu.Item>
           </Menu>
         </Sider>
         <Icon
           className="trigger"
-          type={menuCollapse ? 'menu-unfold' : 'menu-fold'}
+          type={menuCollapse ? 'caret-right' : 'caret-left'}
           size="small"
           onClick={toggleMenu}
           style={{ background: '#fff', maxHeight: 20, fontSize: 20, marginTop: '12px' }}
-          spin={true}
         />
       </Fragment>
     )

@@ -3,6 +3,7 @@ import Login from '../components/Login'
 import NavBar from '../components/NavBar'
 import UserPage from './UserPage'
 import MessagePage from './MessagePage'
+import SearchPage from './SearchPage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions/loginUser'
@@ -37,11 +38,20 @@ class GymBuddy extends Component {
                   )
                 }}
               />
-              <Route path="/buddies" render={() => {
+              <Route path="/messages" render={() => {
                   return isEmpty(currentUser) ? <Redirect to="/login" /> : (
                     <Fragment>
                       <UserNav />
                       <MessagePage />
+                    </Fragment>
+                  )
+                }}
+              />
+              <Route path="/search" render={() => {
+                  return isEmpty(currentUser) ? <Redirect to="/login" /> : (
+                    <Fragment>
+                      <UserNav />
+                      <SearchPage />
                     </Fragment>
                   )
                 }}
@@ -53,7 +63,7 @@ class GymBuddy extends Component {
             </Switch>
           </Layout>
         }
-        <Footer style={{ textAlign: 'center', background: '#fff' }}>
+        <Footer style={{ textAlign: 'center', height: 10, background: '#fff', opacity: .65 }}>
           Gym Buddies ©2019 Created by The Boss
         </Footer>
       </Layout>

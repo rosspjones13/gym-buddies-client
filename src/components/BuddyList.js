@@ -21,8 +21,8 @@ class BuddyList extends Component {
             key={buddy.buddy.id} 
             onClick={() => currentBuddyMessages(buddy)}>
           
-            <Link to={`/buddies/${buddy.buddy.id}`}>
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            <Link to={`/messages/${buddy.buddy.id}`}>
+                <Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{this.showBuddy(buddy).first_name[0]}</Avatar>
               {this.showBuddy(buddy).first_name}
             </Link>
        
