@@ -11,10 +11,10 @@ export function postNewMessage(newMessage) {
   }
 }
 
-export function updateBuddyMessages(buddy_id, message) {
-  return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message}
-}
+// export function updateBuddyMessages(buddy_id, message) {
+//   return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message}
+// }
 
-export function receiveBuddyMessages(message) {
-  return { type: "UPDATE_BUDDY_MESSAGES", message }
+export function receiveBuddyMessages(buddy_id, message) {
+  return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message }
 }

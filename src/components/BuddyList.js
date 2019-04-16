@@ -2,33 +2,69 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
-import { Layout, Menu, Avatar } from 'antd'
+import { Layout, List, Avatar, Badge, Icon, Dropdown, Menu } from 'antd'
 
 const { Sider } = Layout
 
 class BuddyList extends Component {
+  constructor() {
+    super()
+    this.state = {
+      selectedBuddy: {}
+    }
+    this.menu = (
+    <Menu onClick={this.handleMenuSelect}>
+      <Menu.Item key="1"><Icon type="delete" theme="twoTone" />Remove Buddy</Menu.Item>
+      <Menu.Item key="2">
+        <Icon type="stop" theme="twoTone"twoToneColor="#ea0404"/>Block Buddy
+      </Menu.Item>
+    </Menu>
+    )
+  }
+  
+  handleMenuClick = buddy => {
+    this.setState({
+      selectedBuddy: buddy
+    })
+  }
+
+  handleMenuSelect = value => {
+    
+  }
+
   showBuddy = buddy => {
     return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
   }
 
   render() {
     const { userBuddies, currentBuddyMessages } = this.props
+    const { menu } = this
     return (
-      <Sider style={{ background: "#fff" }}>
-        <Menu>
+      <Sider style={{ background: "#fff", height: "85vh", overflow: "auto" }}>
+        <List>
           {userBuddies.map(buddy => (
-            <Menu.Item
-            key={buddy.buddy.id} 
-            onClick={() => currentBuddyMessages(buddy)}>
-          
+            <List.Item
+              key={buddy.buddy.id} 
+              >
             <Link to={`/messages/${buddy.buddy.id}`}>
-                <Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{this.showBuddy(buddy).first_name[0]}</Avatar>
-              {this.showBuddy(buddy).first_name}
+              <List.Item.Meta
+                onClick={() => currentBuddyMessages(buddy)}
+                avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
+                  {this.showBuddy(buddy).first_name[0]}
+                </Avatar>}
+                title={this.showBuddy(buddy).first_name}
+                description={<Badge 
+                  status={this.showBuddy(buddy).status === "offline" ? "default" : "success"}
+                  text={this.showBuddy(buddy).status}
+                />}
+              />
             </Link>
-       
-          </Menu.Item>
+              <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
+                <Icon type="more" style={{ position: 'absolute', marginLeft: '10vw', fontSize: 20 }} />
+              </Dropdown>
+            </List.Item>
           ))}
-        </Menu>
+        </List>
       </Sider>
     )
   }

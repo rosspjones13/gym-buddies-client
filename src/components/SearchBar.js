@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
 import { isEmpty } from 'lodash'
 import { Row, Col, Icon, Input, Radio, Typography, Card, Avatar } from 'antd'
 
 const { Meta } = Card
-const { Text } = Typography
+const { Title } = Typography
 const Search = Input.Search
 
 class SearchBar extends Component {
@@ -40,13 +41,53 @@ class SearchBar extends Component {
     })
   }
 
+  sendRequest = user => {
+    const { currentUser, sendBuddyRequest, updateUserBuddies } = this.props
+    const { userResults } = this.state
+    sendBuddyRequest(user, currentUser)
+    updateUserBuddies({
+      buddy: {
+        requester_id: currentUser.id,
+        requestee_id: user.id,
+        buddy_type: "pending"
+      },
+      requester: {
+        id: currentUser.id,
+        first_name: currentUser.first_name,
+        last_name: currentUser.last_name,
+        username: currentUser.username,
+        status: currentUser.status
+      },
+      requestee: {
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
+        status: user.status
+      },
+      messages: []
+    })
+    let updateResults = userResults.filter(result => result.id !== user.id)
+    this.setState({
+      userResults: updateResults
+    })
+  }
+
   filterUsers = () => {
     const { allUsers, currentUser, userBuddies } = this.props
     const { searchType, searchText } = this.state
+    let myBuddyIds = []
+    userBuddies.forEach(buddy => {
+      if (currentUser.id === buddy.buddy.requestee_id) {
+        myBuddyIds.push(buddy.requester.id)
+      }
+      else {
+        myBuddyIds.push(buddy.requestee.id)
+      }
+    })
     let foundUsers = []
-    let nonBuddies = []
     if (searchType === "username") {
-      foundUsers = allUsers.filter(user =>user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== currentUser.id)
+      foundUsers =  allUsers.filter(user =>user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== currentUser.id)
     }
     else if (searchType === "location") {
       foundUsers = allUsers.filter(user => user.location === parseInt(searchText) && user.id !== currentUser.id)
@@ -54,17 +95,11 @@ class SearchBar extends Component {
     else {
       foundUsers = allUsers.filter(user => user.id !== currentUser.id && (user.first_name.toLowerCase().includes(searchText.toLowerCase()) || user.last_name.toLowerCase().includes(searchText.toLowerCase())))
     }
-    foundUsers.forEach(user => {
-      userBuddies.forEach(buddy => {
-        if (user.id === buddy.buddy.requester || user.id === buddy.buddy.requestee) {
-          nonBuddies.push( user)
-        }
-      })
-    })
+    return foundUsers.filter(user => !myBuddyIds.includes(user.id))
   }
 
   render() {
-    let { currentBuddy, userBuddies, currentUser, allUsers } = this.props
+    let { allUsers } = this.props
     let { searchType, userResults, searchText, noResults } = this.state
     return (
       <Col style={{ marginTop: '20px' }}>
@@ -99,7 +134,7 @@ class SearchBar extends Component {
           }
         </Row>
         <Row type="flex">
-          {noResults ? <p>No results or new buddies found!</p> : null}
+          {noResults ? <Title level={4} style={{ color: 'red' }}>No results or new buddies found!</Title> : null}
           {isEmpty(userResults) ?
             null
              :
@@ -109,7 +144,7 @@ class SearchBar extends Component {
                 <Card
                   style={{ marginTop: "20px" }}
                   title={`${user.username}`}
-                  extra={<Icon type="user-add" onClick={this.sendRequest}/>}
+                  extra={<Icon type="user-add" onClick={() => this.sendRequest(user)}/>}
                 >
                   <Meta
                     avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}</Avatar>}
@@ -139,7 +174,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // fetchingcurrentBuddy: (buddy) => { dispatch(fetchingcurrentBuddy(buddy)) }
+    sendBuddyRequest: (user, currentUser) => { dispatch(sendBuddyRequest(user, currentUser)) },
+    updateUserBuddies: (buddy) => { dispatch(updateUserBuddies(buddy)) }
   }
 }
 

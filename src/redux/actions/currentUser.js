@@ -1,7 +1,7 @@
 import { apiUrl } from '../../constants/fetchUrls'
 
 export function currentBuddyMessages(buddy) {
-  return { type: "CURRENT_BUDDY_MESSAGES", buddy }
+  return { type: "CURRENT_BUDDY", buddy }
 }
 
 export function currentUserBuddies(buddies) {

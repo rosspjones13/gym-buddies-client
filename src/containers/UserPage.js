@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import WorkoutCalendar from '../components/WorkoutCalendar'
 import { ActionCableConsumer } from 'react-actioncable-provider';
-import { Layout, Card, Row, Col, Icon } from 'antd'
+import { Layout, Row, Col } from 'antd'
 
 const { Content } = Layout
 
@@ -11,16 +11,16 @@ class UserPage extends Component {
     return new Date(date).toLocaleDateString()
   }
 
-  formatAchievement = (goal) => {
-    if(goal.goal_type === "time"){
-      let minutes = Math.floor(goal.measurable_achievement / 60)
-      let seconds = goal.measurable_achievement - minutes * 60
-      return `${minutes}:${seconds < 10 ? `0${seconds}`: seconds}/mile`
-    }
-    else {
-      return `${goal.measurable_achievement}lbs`
-    }
-  }
+  // formatAchievement = (goal) => {
+  //   if(goal.goal_type === "time"){
+  //     let minutes = Math.floor(goal.measurable_achievement / 60)
+  //     let seconds = goal.measurable_achievement - minutes * 60
+  //     return `${minutes}:${seconds < 10 ? `0${seconds}`: seconds}/mile`
+  //   }
+  //   else {
+  //     return `${goal.measurable_achievement}lbs`
+  //   }
+  // }
 
   capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -31,7 +31,7 @@ class UserPage extends Component {
   }
 
   render() {
-    const { userGoals, currentUser } = this.props
+    const { currentUser } = this.props
     return (
       <Layout style={{ background: '#fff'}}>
         <ActionCableConsumer
@@ -40,7 +40,7 @@ class UserPage extends Component {
         />
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
           <Row type="flex" justify="space-around" style={{ marginTop: '30px', justifyContent: 'middle' }}>
-            <Col span={3}>
+            {/* <Col span={3}>
               {userGoals.map(goal => {
                 let goal_type = this.capitalizeFirstLetter(goal.goal_type) + ' Goal'
                 return (
@@ -55,7 +55,7 @@ class UserPage extends Component {
                   </Card>
                 )
               })}
-            </Col>
+            </Col> */}
             <Col span={20}>
               <WorkoutCalendar />
             </Col>

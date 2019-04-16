@@ -11,16 +11,16 @@ export const currentUserReducer = (state = {}, action) => {
   }
 }
 
-export const userGoalsReducer = (state = {}, action) => {
-  switch (action.type) {
-    case "FETCHED_LOGIN_USER":
-      return action.user.goals
-    case "FETCHED_LOGGED_USER":
-      return action.user.goals
-    default:
-      return state
-  }
-}
+// export const userGoalsReducer = (state = {}, action) => {
+//   switch (action.type) {
+//     case "FETCHED_LOGIN_USER":
+//       return action.user.goals
+//     case "FETCHED_LOGGED_USER":
+//       return action.user.goals
+//     default:
+//       return state
+//   }
+// }
 
 export const userWorkoutsReducer = (state = [], action) => {
   switch (action.type) {
@@ -44,16 +44,13 @@ export const userBuddiesReducer = (state = {}, action) => {
       return action.user.buddies
     case "FETCHED_USER_BUDDIES":
       return action.buddies
+    case "UPDATE_USER_BUDDIES":  
+      return [...state, action.buddy]
     case "UPDATE_BUDDY_MESSAGES":
-      return state.map(b => {
-        if (b.id === action.buddy_id) {
-          return {
-            ...b,
-            messages: [...b.messages, action.message]
-          }
-        }
-        return b
-      })
+      let found = state.find(b => b.buddy.id === action.buddy_id)
+      found.messages.push(action.message)
+      let newState = state.filter(b => b.buddy.id !== action.buddy_id)
+      return [...newState, found]
     default:
       return state
   }
@@ -61,10 +58,10 @@ export const userBuddiesReducer = (state = {}, action) => {
 
 export const currentBuddyReducer = (state = {}, action) => {
   switch (action.type) {
-    case "CURRENT_BUDDY_MESSAGES":
+    case "CURRENT_BUDDY":
       return action.buddy
-    case "UPDATE_BUDDY_MESSAGES":
-      return { ...state, messages: [...state.messages, action.message] }
+    // case "UPDATE_BUDDY_MESSAGES":
+    //   return { ...state, messages: [...state.messages, action.message] }
     default:
       return state
   }
