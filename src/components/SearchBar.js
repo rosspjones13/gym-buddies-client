@@ -13,7 +13,8 @@ class SearchBar extends Component {
     this.state = {
       searchType: "username",
       searchText: "",
-      userResults: []
+      userResults: [],
+      noResults: false
     }
   }
 
@@ -35,27 +36,36 @@ class SearchBar extends Component {
     this.setState({
       searchText: "",
       userResults: usersFound,
-      loading: false
+      noResults: isEmpty(usersFound) ? true : false
     })
   }
 
   filterUsers = () => {
-    const { allUsers, currentUser } = this.props
+    const { allUsers, currentUser, userBuddies } = this.props
     const { searchType, searchText } = this.state
+    let foundUsers = []
+    let nonBuddies = []
     if (searchType === "username") {
-      return allUsers.filter(user => user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== currentUser.id)
+      foundUsers = allUsers.filter(user =>user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== currentUser.id)
     }
     else if (searchType === "location") {
-      return allUsers.filter(user => user.location === parseInt(searchText) && user.id !== currentUser.id)
+      foundUsers = allUsers.filter(user => user.location === parseInt(searchText) && user.id !== currentUser.id)
     }
     else {
-      return allUsers.filter(user => user.id !== currentUser.id && (user.first_name.toLowerCase().includes(searchText.toLowerCase()) || user.last_name.toLowerCase().includes(searchText.toLowerCase())))
+      foundUsers = allUsers.filter(user => user.id !== currentUser.id && (user.first_name.toLowerCase().includes(searchText.toLowerCase()) || user.last_name.toLowerCase().includes(searchText.toLowerCase())))
     }
+    foundUsers.forEach(user => {
+      userBuddies.forEach(buddy => {
+        if (user.id === buddy.buddy.requester || user.id === buddy.buddy.requestee) {
+          nonBuddies.push( user)
+        }
+      })
+    })
   }
 
   render() {
-    let { currentBuddy, currentUser, allUsers } = this.props
-    let { searchType, userResults } = this.state
+    let { currentBuddy, userBuddies, currentUser, allUsers } = this.props
+    let { searchType, userResults, searchText, noResults } = this.state
     return (
       <Col style={{ marginTop: '20px' }}>
         <Row>
@@ -77,7 +87,8 @@ class SearchBar extends Component {
             <Col span={24}>
               <Search
                 placeholder={`Search by ${searchType}...`}
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: "20px", width: '60vw' }}
+                value={searchText}
                 onChange={this.onInputChange}
                 onSearch={this.handleSearch}
                 enterButton="Find" 
@@ -88,10 +99,11 @@ class SearchBar extends Component {
           }
         </Row>
         <Row type="flex">
+          {noResults ? <p>No results or new buddies found!</p> : null}
           {isEmpty(userResults) ?
             null
              :
-            userResults.map(user => {  
+            userResults.map(user => {
               return (
               <Col key={user.id} span={8}>
                 <Card
