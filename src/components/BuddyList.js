@@ -71,7 +71,7 @@ class BuddyList extends Component {
   }
 
   render() {
-    const { userBuddies, currentBuddyMessages } = this.props
+    const { userBuddies, currentBuddyMessages, currentUser } = this.props
     const { menu } = this
     let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
@@ -84,9 +84,9 @@ class BuddyList extends Component {
             <Link to={`/messages/${buddy.buddy.id}`}>
               <List.Item.Meta
                 onClick={() => currentBuddyMessages(buddy)}
-                avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
+                  avatar={<Badge count={buddy.messages.filter(message => !message.read && message.username.username !== currentUser.username).length}><Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
                   {this.showBuddy(buddy).first_name[0]}
-                </Avatar>}
+                  </Avatar></Badge>}
                 title={this.showBuddy(buddy).first_name}
                 description={<Badge 
                   status={this.showBuddy(buddy).status === "offline" ? "default" : "success"}
@@ -95,7 +95,7 @@ class BuddyList extends Component {
               />
             </Link>
               <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
-                <Icon type="more" style={{ position: 'absolute', marginLeft: '10vw', fontSize: 20 }} />
+                <Icon type="more" style={{ position: 'absolute', marginLeft: '-2vw', fontSize: 20 }} />
               </Dropdown>
             </List.Item>
           ))}

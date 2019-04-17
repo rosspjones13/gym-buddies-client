@@ -1,31 +1,32 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { receiveBuddyMessages } from '../redux/actions/messages'
+import Message from './Message'
 import { isEmpty } from 'lodash'
-import { Layout, List, Avatar, Row, Col } from 'antd'
+import { Layout, List, Row, Col } from 'antd'
 
 const { Content } = Layout
 
 class MessageList extends Component {
-  scrollToBottom = () => {
-    const { currentBuddy } = this.props
-    if (!isEmpty(currentBuddy.messages)) {
-      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
+  // scrollToBottom = () => {
+  //   const { currentBuddy } = this.props
+  //   if (!isEmpty(currentBuddy.messages)) {
+  //     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }
 
-  componentDidMount() {
-    this.scrollToBottom();
-  }
+  // componentDidMount() {
+  //   this.scrollToBottom();
+  // }
 
-  componentDidUpdate() {
-    this.scrollToBottom();
-  }
+  // componentDidUpdate() {
+  //   this.scrollToBottom();
+  // }
 
-  formatDate(date) {
-    let newD = new Date(date)
-    return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
-  }
+  // formatDate(date) {
+  //   let newD = new Date(date)
+  //   return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
+  // }
 
   // handleReceivedMessage = newMessage => {
   //   const { receiveBuddyMessages, currentBuddy } = this.props
@@ -48,17 +49,18 @@ class MessageList extends Component {
                 style={{ maxWidth: "75em", justifySelf: 'center' }}
                 dataSource={currentBuddy.messages}
                 renderItem={message => (
-                  <List.Item key={message.id}>
-                    <List.Item.Meta
-                      avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{message.username.first_name[0]}</Avatar>}
-                      title={message.content}
-                      description={message.username.first_name}
-                      />
-                    <div>@{this.formatDate(message.created_at)}</div>
-                    <div style={{ float: "left", clear: "both" }}
-                      ref={(el) => { this.messagesEnd = el; }}>
-                    </div>
-                  </List.Item>
+                  <Message message={message} />
+                  // <List.Item key={message.id}>
+                  //   <List.Item.Meta
+                  //     avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{message.username.first_name[0]}</Avatar>}
+                  //     title={message.content}
+                  //     description={message.username.first_name}
+                  //     />
+                  //   <div>@{this.formatDate(message.created_at)}</div>
+                  //   <div style={{ float: "left", clear: "both" }}
+                  //     ref={(el) => { this.messagesEnd = el; }}>
+                  //   </div>
+                  // </List.Item>
                 )}
               />
             </div>
