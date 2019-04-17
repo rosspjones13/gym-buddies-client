@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ActionCableConsumer } from 'react-actioncable-provider';
 import { receiveBuddyMessages } from '../redux/actions/messages'
 import { isEmpty } from 'lodash'
 import { Layout, List, Avatar, Row, Col } from 'antd'
@@ -28,19 +27,19 @@ class MessageList extends Component {
     return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
   }
 
-  handleReceivedMessage = newMessage => {
-    const { receiveBuddyMessages, currentBuddy } = this.props
-    receiveBuddyMessages(currentBuddy.buddy.id, newMessage)
-  };
+  // handleReceivedMessage = newMessage => {
+  //   const { receiveBuddyMessages, currentBuddy } = this.props
+  //   receiveBuddyMessages(currentBuddy.buddy.id, newMessage)
+  // };
   
   render() {
     const { currentBuddy } = this.props
     return (
       <Content style={{ background: "#fff" }}>
-        <ActionCableConsumer
+        {/* <ActionCableConsumer
           channel={{ channel: 'MessagesChannel', buddy: currentBuddy.buddy.id }}
           onReceived={this.handleReceivedMessage}
-        />
+        /> */}
         {isEmpty(currentBuddy.messages) ? null :
         <Row type="flex" align="top">
           <Col span={16} offset={4}>

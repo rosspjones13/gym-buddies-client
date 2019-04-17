@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import WorkoutCalendar from '../components/WorkoutCalendar'
+import { ActionCableConsumer } from 'react-actioncable-provider'
+import { currentUserOnline } from '../redux/actions/currentUser'
 import { Layout, Row, Col } from 'antd'
 
 const { Content } = Layout
@@ -21,12 +23,22 @@ class UserPage extends Component {
   //   }
   // }
 
+  handleConnected = () => {
+    const { currentUser, currentUserOnline } = this.props
+    currentUser.status = "online"
+    currentUserOnline(currentUser)
+  }
+
   capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   render() {
     return (
       <Layout style={{ background: '#fff'}}>
+        <ActionCableConsumer
+          channel={{ channel: 'BuddiesChannel' }}
+          onConnected={this.handleConnected}
+        />
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
           <Row type="flex" justify="space-around" style={{ marginTop: '30px', justifyContent: 'middle' }}>
             {/* <Col span={3}>
@@ -63,4 +75,10 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(UserPage)
+const mapDispatchToProps = dispatch => {
+  return {
+    currentUserOnline: (user) => { dispatch(currentUserOnline(user)) }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)

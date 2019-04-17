@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { receiveBuddyMessages } from '../redux/actions/messages'
 import { currentUserOnline } from '../redux/actions/currentUser'
-import { ActionCableConsumer } from 'react-actioncable-provider';
 import { toggleMenu } from '../redux/actions/menu'
 import { Layout, Menu, Icon } from 'antd'
 
@@ -26,11 +25,10 @@ class UserNav extends Component {
     const { menuCollapse, toggleMenu } = this.props
     return (
       <Fragment>
-        <ActionCableConsumer
+        {/* <ActionCableConsumer
           channel={{ channel: 'BuddiesChannel' }}
-          onReceived={this.handleReceivedBuddy}
           onConnected={this.handleConnected}
-        />
+        /> */}
         {/* {!isEmpty(userBuddies) ? userBuddies.map(buddy => {
           return (<ActionCableConsumer
           key={buddy.buddy.id}
