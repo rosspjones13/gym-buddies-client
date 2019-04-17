@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { logoutUser } from '../redux/actions/loginUser'
+import { currentUserOffline } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
 import { Button, Icon, Typography, Layout, Row, Col } from 'antd';
 
@@ -13,8 +14,10 @@ class NavBar extends Component {
   }
 
   handleLogout = () => {
+    const { currentUser, currentUserOffline} = this.props
     localStorage.clear()
-    this.props.logoutUser()
+    currentUser.status = "offline"
+    currentUserOffline(currentUser)
   }
 
   render() {
@@ -60,7 +63,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    logoutUser: () => { dispatch(logoutUser()) },
+    // logoutUser: () => { dispatch(logoutUser()) },
+    currentUserOffline: (user) => { dispatch(currentUserOffline(user)) }
   }
 }
 

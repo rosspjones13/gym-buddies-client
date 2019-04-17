@@ -8,6 +8,25 @@ export function currentUserBuddies(buddies) {
   return { type: "FETCHED_USER_BUDDIES", buddies }
 }
 
+export function currentUserOnline(user) {
+  return (dispatch) => {
+    fetch(apiUrl + `users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => res.json())
+      .then(user => { dispatch(currentUserStatus(user)) })
+  }
+}
+
+export function currentUserStatus(user) {
+  return { type: "UPDATE_USER_STATUS", user }
+}
+
 export function loadingLoggedUser() {  
   return { type: "LOADING_LOGGED_USER" }
 }

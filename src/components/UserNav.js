@@ -1,21 +1,44 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchingUserBuddies } from '../redux/actions/currentUser'
+import { receiveBuddyMessages } from '../redux/actions/messages'
+import { currentUserOnline, currentUserOffline } from '../redux/actions/currentUser'
+import { ActionCableConsumer } from 'react-actioncable-provider';
 import { toggleMenu } from '../redux/actions/menu'
+import { isEmpty } from 'lodash'
 import { Layout, Menu, Icon } from 'antd'
 
 const { Sider } = Layout
 
 class UserNav extends Component {
-  // handleMessageClick = () => {
-  //   this.props.fetchingUserBuddies()
+  // handleReceivedBuddy = () => {
+  //   debugger
+  //   const { receiveBuddyMessages, currentBuddy } = this.props
+  //   receiveBuddyMessages(buddy_id, newMessage)
   // }
+  
+  handleConnected = () => {
+    const { currentUser, currentUserOnline } = this.props
+    currentUser.status = "online"
+    currentUserOnline(currentUser)
+  }
 
   render() {
-    const { menuCollapse, toggleMenu } = this.props
+    const { menuCollapse, toggleMenu, userBuddies } = this.props
     return (
       <Fragment>
+        <ActionCableConsumer
+          channel={{ channel: 'BuddiesChannel' }}
+          onReceived={this.handleReceivedBuddy}
+          onConnected={this.handleConnected}
+        />
+        {/* {!isEmpty(userBuddies) ? userBuddies.map(buddy => {
+          return (<ActionCableConsumer
+          key={buddy.buddy.id}
+          channel={{ channel: 'MessagesChannel', buddy: buddy.buddy.id }}
+          onReceived={(res) => this.handleReceivedMessage(res, buddy.buddy.id)}
+        />)}
+        ) : null} */}
         <Sider
           trigger={null}
           collapsible
@@ -57,14 +80,17 @@ class UserNav extends Component {
 
 const mapStateToProps = state => {
   return {
-    menuCollapse: state.menuCollapse
+    menuCollapse: state.menuCollapse,
+    userBuddies: state.userBuddies,
+    currentUser: state.currentUser
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchingUserBuddies: () => { dispatch(fetchingUserBuddies()) },
-    toggleMenu: () => { dispatch(toggleMenu()) }
+    toggleMenu: () => { dispatch(toggleMenu()) },
+    receiveBuddyMessages: (buddy_id, newMessage) => { dispatch(receiveBuddyMessages(buddy_id, newMessage)) },
+    currentUserOnline: (user) => { dispatch(currentUserOnline(user)) }
   }
 }
 

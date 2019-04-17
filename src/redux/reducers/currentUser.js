@@ -4,6 +4,8 @@ export const currentUserReducer = (state = {}, action) => {
       return action.user.user
     case "FETCHED_LOGGED_USER":
       return action.user.user
+    case "UPDATE_USER_STATUS":
+      return action.user
     case "LOGOUT_USER":
       return {}
     default:

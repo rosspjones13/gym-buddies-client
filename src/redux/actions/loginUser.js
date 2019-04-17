@@ -12,8 +12,23 @@ export function logoutUser() {
   return { type: "LOGOUT_USER"}
 }
 
-export function fetchedLoginUser(user, goals) {
-  return { type: "FETCHED_LOGIN_USER", user, goals }
+export function currentUserOffline(user) {
+  return (dispatch) => {
+    fetch(apiUrl + `users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => res.json())
+      .then(user => dispatch(logoutUser()))
+  }
+}
+
+export function fetchedLoginUser(user) {
+  return { type: "FETCHED_LOGIN_USER", user}
 }
 
 export function fetchingLoginUser(username, password) {

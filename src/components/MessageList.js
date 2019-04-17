@@ -34,7 +34,7 @@ class MessageList extends Component {
   };
   
   render() {
-    const { currentBuddy, userBuddies } = this.props
+    const { currentBuddy } = this.props
     return (
       <Content style={{ background: "#fff" }}>
         <ActionCableConsumer

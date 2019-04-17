@@ -17,7 +17,7 @@ class NewMessageForm extends Component {
   handleSubmit = () => {
     const { message } = this.state
     const { currentBuddy, postNewMessage, currentUser } = this.props
-    const newMessage = { buddy_id: currentBuddy.buddy.id, user_id: currentUser.id, content: message }
+    const newMessage = { buddy_id: currentBuddy.buddy.id, user_id: currentUser.id, content: message, read: false }
     this.setState({
       message: ""
     })

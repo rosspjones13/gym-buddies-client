@@ -31,13 +31,9 @@ class UserPage extends Component {
   }
 
   render() {
-    const { currentUser } = this.props
+    const { currentUser, userBuddies } = this.props
     return (
       <Layout style={{ background: '#fff'}}>
-        <ActionCableConsumer
-          channel={{ channel: 'BuddiesChannel', user: currentUser.id }}
-          onReceived={this.handleReceivedBuddy}
-        />
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
           <Row type="flex" justify="space-around" style={{ marginTop: '30px', justifyContent: 'middle' }}>
             {/* <Col span={3}>
@@ -69,7 +65,7 @@ class UserPage extends Component {
 const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
-    userGoals: state.userGoals,
+    userBuddies: state.userBuddies,
     collapsed: state.menuCollapse
   }
 }

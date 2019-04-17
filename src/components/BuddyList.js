@@ -36,13 +36,38 @@ class BuddyList extends Component {
     return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
   }
 
+  sortBuddyNameList = buddies => {
+    return buddies.sort((userA, userB) => {
+      var buddyA = this.showBuddy(userA)
+      var buddyB = this.showBuddy(userB)
+      var nameA = buddyA.first_name.toUpperCase(); // ignore upper and lowercase
+      var nameB = buddyB.first_name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+
+      // names must be equal
+      return 0;
+    })
+  }
+
+  filterBuddyStatusList = userBuddies => {
+    let online = userBuddies.filter(user => this.showBuddy(user).status === "online")
+    let offline = userBuddies.filter(user => this.showBuddy(user).status === "offline")
+    return [...this.sortBuddyNameList(online), ...this.sortBuddyNameList(offline)]
+  }
+
   render() {
     const { userBuddies, currentBuddyMessages } = this.props
     const { menu } = this
+    let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
       <Sider style={{ background: "#fff", height: "85vh", overflow: "auto" }}>
         <List>
-          {userBuddies.map(buddy => (
+          {sortedBuddies.map(buddy => (
             <List.Item
               key={buddy.buddy.id} 
               >
