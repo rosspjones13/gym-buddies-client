@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import WorkoutCalendar from '../components/WorkoutCalendar'
-import { ActionCableConsumer } from 'react-actioncable-provider';
 import { Layout, Row, Col } from 'antd'
 
 const { Content } = Layout
@@ -25,13 +24,7 @@ class UserPage extends Component {
   capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
-  handleReceivedBuddy = response => {
-    console.log('received buddy info' + response)
-  }
-
   render() {
-    const { currentUser, userBuddies } = this.props
     return (
       <Layout style={{ background: '#fff'}}>
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>

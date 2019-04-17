@@ -2,10 +2,9 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { receiveBuddyMessages } from '../redux/actions/messages'
-import { currentUserOnline, currentUserOffline } from '../redux/actions/currentUser'
+import { currentUserOnline } from '../redux/actions/currentUser'
 import { ActionCableConsumer } from 'react-actioncable-provider';
 import { toggleMenu } from '../redux/actions/menu'
-import { isEmpty } from 'lodash'
 import { Layout, Menu, Icon } from 'antd'
 
 const { Sider } = Layout
@@ -24,7 +23,7 @@ class UserNav extends Component {
   }
 
   render() {
-    const { menuCollapse, toggleMenu, userBuddies } = this.props
+    const { menuCollapse, toggleMenu } = this.props
     return (
       <Fragment>
         <ActionCableConsumer

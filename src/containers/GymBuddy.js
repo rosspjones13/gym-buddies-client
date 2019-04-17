@@ -19,7 +19,7 @@ class GymBuddy extends Component {
   }
 
   render() {
-    const { currentUser, loading, userBuddies } = this.props
+    const { currentUser, loading } = this.props
     return (
       <Layout style={{ height: '100vh' }}>
         <NavBar />

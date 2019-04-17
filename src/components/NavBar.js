@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { logoutUser } from '../redux/actions/loginUser'
 import { currentUserOffline } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
 import { Button, Icon, Typography, Layout, Row, Col } from 'antd';
@@ -63,7 +62,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // logoutUser: () => { dispatch(logoutUser()) },
     currentUserOffline: (user) => { dispatch(currentUserOffline(user)) }
   }
 }

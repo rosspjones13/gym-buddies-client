@@ -46,8 +46,10 @@ export const userBuddiesReducer = (state = {}, action) => {
       return action.user.buddies
     case "FETCHED_USER_BUDDIES":
       return action.buddies
-    case "UPDATE_USER_BUDDIES":  
-      return [...state, action.buddy]
+    case "UPDATE_USER_BUDDIES":
+      return [...state.filter(b => b.buddy.id !== action.buddy.buddy.id), action.buddy]
+    case "REMOVE_BUDDY":  
+      return state.filter(b => b.buddy.id !== action.buddy.buddy.id)
     case "UPDATE_BUDDY_MESSAGES":
       let found = state.find(b => b.buddy.id === action.buddy_id)
       found.messages.push(action.message)

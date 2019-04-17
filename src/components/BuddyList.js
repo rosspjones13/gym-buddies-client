@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
+import { deleteBuddy, updateBuddyStatus } from '../redux/actions/buddies'
 import { Layout, List, Avatar, Badge, Icon, Dropdown, Menu } from 'antd'
 
 const { Sider } = Layout
@@ -29,7 +30,15 @@ class BuddyList extends Component {
   }
 
   handleMenuSelect = value => {
-    
+    const { selectedBuddy } = this.state
+    const { deleteBuddy, updateBuddyStatus } = this.props
+    if (value.key === "1") {
+      deleteBuddy(selectedBuddy)
+    }
+    else {
+      selectedBuddy.buddy.buddy_type = "blocked"
+      updateBuddyStatus(selectedBuddy)
+    }
   }
 
   showBuddy = buddy => {
@@ -57,7 +66,8 @@ class BuddyList extends Component {
   filterBuddyStatusList = userBuddies => {
     let online = userBuddies.filter(user => this.showBuddy(user).status === "online")
     let offline = userBuddies.filter(user => this.showBuddy(user).status === "offline")
-    return [...this.sortBuddyNameList(online), ...this.sortBuddyNameList(offline)]
+    let sorted = [...this.sortBuddyNameList(online), ...this.sortBuddyNameList(offline)]
+    return sorted.filter(buddy => buddy.buddy.buddy_type !== "blocked")
   }
 
   render() {
@@ -104,7 +114,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    currentBuddyMessages: (buddy) => { dispatch(currentBuddyMessages(buddy)) }
+    currentBuddyMessages: (buddy) => { dispatch(currentBuddyMessages(buddy)) },
+    deleteBuddy: (buddy) => { dispatch(deleteBuddy(buddy)) },
+    updateBuddyStatus: (buddy) => { dispatch(updateBuddyStatus(buddy)) },
   }
 }
 
