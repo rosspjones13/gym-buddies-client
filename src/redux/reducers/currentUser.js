@@ -55,6 +55,13 @@ export const userBuddiesReducer = (state = {}, action) => {
       found.messages.push(action.message)
       let newState = state.filter(b => b.buddy.id !== action.buddy_id)
       return [...newState, found]
+    case "READ_BUDDY_MESSAGE":
+      let oldState = state.filter(b => b.buddy.id !== action.message.buddy_id)
+      let foundConvo = state.find(b => b.buddy.id === action.message.buddy_id)
+      let updatedBuddy = { ...foundConvo, messages: foundConvo.messages.map(message => message.id === action.message.id ? action.message : message) }
+      return [...oldState, updatedBuddy]
+    case "LOGOUT_USER":
+      return {}
     default:
       return state
   }
@@ -64,8 +71,8 @@ export const currentBuddyReducer = (state = {}, action) => {
   switch (action.type) {
     case "CURRENT_BUDDY":
       return action.buddy
-    // case "UPDATE_BUDDY_MESSAGES":
-    //   return { ...state, messages: [...state.messages, action.message] }
+    case "LOGOUT_USER":
+      return {}
     default:
       return state
   }

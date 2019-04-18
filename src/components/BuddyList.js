@@ -95,7 +95,11 @@ class BuddyList extends Component {
               />
             </Link>
               <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
+<<<<<<< HEAD
                 <Icon type="more" style={{ position: 'fixed', right: 25, fontSize: 20 }} />
+=======
+                <Icon type="more" style={{ position: 'absolute', marginLeft: '-2vw', fontSize: 20 }} />
+>>>>>>> read-messages
               </Dropdown>
             </List.Item>
           ))}
