@@ -21,12 +21,12 @@ class MessagePage extends Component {
     const { currentBuddy, currentUser } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
-        {isEmpty(currentBuddy) ? <Content></Content> :
-        <Layout style={{ background: "#fff" }}>
         <ActionCableConsumer
           channel={{ channel: 'MessagesChannel', buddy: currentUser.id }}
           onReceived={this.handleReceivedMessage}
         />
+        {isEmpty(currentBuddy) ? <Content></Content> :
+        <Layout style={{ background: "#fff" }}>
           <MessageList />
           <NewMessageForm />
         </Layout>

@@ -5,7 +5,7 @@ import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePic
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 
-const { Text } = Typography
+const { Text, Title } = Typography
 const { Option } = Select
 const format = 'mm:ss'
 
@@ -140,7 +140,7 @@ class WorkoutCalendar extends Component {
   }
 
   onPanelChange = (value) => {
-    this.setState({ value });
+    this.setState({ selectedDay: value });
   }
 
   dateCellRender = (value) => {
@@ -189,6 +189,7 @@ class WorkoutCalendar extends Component {
     const { selectedDay, modalVisible, exerciseCategory, exerciseSelected, currentImage } = this.state;
     return (
       <div>
+        <Title level={3}>My Workout Calendar</Title>
         <Modal
           title={`Add a new workout on ${selectedDay.format('MM-DD-YYYY')}`}
           centered
@@ -275,7 +276,7 @@ class WorkoutCalendar extends Component {
           }
         </Modal>
         <Calendar 
-          value={selectedDay} 
+          value={selectedDay}
           onSelect={this.onSelect}
           onPanelChange={this.onPanelChange}
           dateCellRender={this.dateCellRender}
