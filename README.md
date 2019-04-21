@@ -1,4 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Gym Buddies
+
+## Description
+
+This app is meant to be an app for gym members to find a friend to go to the gym and keep track of their workouts all in one place.
 
 ## Available Scripts
 

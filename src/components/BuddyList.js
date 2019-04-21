@@ -75,7 +75,7 @@ class BuddyList extends Component {
     const { menu } = this
     let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
-      <Sider style={{ background: "#fff", height: "85vh", overflow: "auto" }}>
+      <Sider style={{ background: "#fff", height: "95vh", overflow: "auto" }}>
         <List>
           {sortedBuddies.map(buddy => (
             <List.Item
@@ -86,6 +86,7 @@ class BuddyList extends Component {
                 onClick={() => currentBuddyMessages(buddy)}
                   avatar={<Badge count={buddy.messages.filter(message => !message.read && message.username.username !== currentUser.username).length}><Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
                   {this.showBuddy(buddy).first_name[0]}
+                  {this.showBuddy(buddy).last_name[0]}
                   </Avatar></Badge>}
                 title={this.showBuddy(buddy).first_name}
                 description={<Badge 
@@ -95,11 +96,7 @@ class BuddyList extends Component {
               />
             </Link>
               <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
-<<<<<<< HEAD
-                <Icon type="more" style={{ position: 'fixed', right: 25, fontSize: 20 }} />
-=======
-                <Icon type="more" style={{ position: 'absolute', marginLeft: '-2vw', fontSize: 20 }} />
->>>>>>> read-messages
+                <Icon type="more" style={{ position: 'absolute', marginLeft: "7vw", fontSize: 20 }} />
               </Dropdown>
             </List.Item>
           ))}

@@ -140,14 +140,14 @@ class SearchBar extends Component {
              :
             userResults.map(user => {
               return (
-              <Col key={user.id} span={8}>
+              <Col key={user.id} span={5} offset={2}>
                 <Card
                   style={{ marginTop: "20px" }}
                   title={`${user.username}`}
                   extra={<Icon type="user-add" onClick={() => this.sendRequest(user)}/>}
                 >
                   <Meta
-                    avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}</Avatar>}
+                      avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}{user.last_name[0]}</Avatar>}
                     title={`${user.first_name} ${user.last_name}`}
                     description={`Zip: ${user.location}`}
                   />
