@@ -61,12 +61,12 @@ class UserNav extends Component {
                 <span>Find Buddies</span>
               </Link>
             </Menu.Item>
-            {/* <Menu.Item key="4">
-              <Link to="/gyms">
-                <Icon type="usergroup-add" style={{ fontSize: 20 }}/>
-                <span>Find Buddies</span>
+            <Menu.Item key="4">
+              <Link to="/gym-map">
+                <Icon type="check-square" style={{ fontSize: 20 }}/>
+                <span>Gym Check-in</span>
               </Link>
-            </Menu.Item> */}
+            </Menu.Item>
           </Menu>
         </Sider>
         <Icon

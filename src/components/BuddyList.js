@@ -76,33 +76,35 @@ class BuddyList extends Component {
     let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
       <Sider style={{ background: "#fff", height: "95vh", overflow: "auto" }}>
-        <Menu>
+        <List >
           {sortedBuddies.map(buddy => (
             <Fragment>
-              <Menu.Item
+              <List.Item
                 key={buddy.buddy.id}
                 style={{ height: '6vh' }}
               >
                 <List.Item.Meta
-                onClick={() => currentBuddyMessages(buddy)}
-                avatar={<Badge count={buddy.messages.filter(message => !message.read && message.username.username !== currentUser.username).length}>
-                  <Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
-                    {showBuddy(buddy).first_name[0]}
-                    {showBuddy(buddy).last_name[0]}
-                  </Avatar></Badge>}
-                title={showBuddy(buddy).first_name}
-                description={<Badge
-                status={showBuddy(buddy).status === "offline" ? "default" : "success"}
-                text={showBuddy(buddy).status}
-                />}
+                  key={buddy.buddy.id}
+                  onClick={() => currentBuddyMessages(buddy)}
+                  avatar={<Badge count={buddy.messages.filter(message => !message.read && message.username.username !== currentUser.username).length}>
+                    <Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
+                      {showBuddy(buddy).first_name[0]}
+                      {showBuddy(buddy).last_name[0]}
+                    </Avatar>
+                    <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
+                      <Icon type="more" style={{ fontSize: 18 }} />
+                    </Dropdown>
+                  </Badge>}
+                  title={showBuddy(buddy).first_name}
+                  description={<Badge
+                    status={showBuddy(buddy).status === "offline" ? "default" : "success"}
+                    text={showBuddy(buddy).status}
+                  />}
                 />
-              </Menu.Item>
-              {/* <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
-                <Icon type="more" style={{ position: 'absolute', marginLeft: "7vw", fontSize: 20 }} />
-              </Dropdown> */}
+              </List.Item>
             </Fragment>
           ))}
-        </Menu>
+        </List>
       </Sider>
     )
   }

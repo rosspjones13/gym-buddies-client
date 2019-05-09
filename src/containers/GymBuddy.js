@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar'
 import UserPage from './UserPage'
 import MessagePage from './MessagePage'
 import SearchPage from './SearchPage'
+import GymPage from './GymPage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions/loginUser'
@@ -72,6 +73,15 @@ class GymBuddy extends Component {
                     <Fragment>
                       <UserNav />
                       <SearchPage />
+                    </Fragment>
+                  )
+                }}
+              />
+              <Route path="/gym-map" render={() => {
+                  return isEmpty(currentUser) ? <Redirect to="/login" /> : (
+                    <Fragment>
+                      <UserNav />
+                      <GymPage />
                     </Fragment>
                   )
                 }}
