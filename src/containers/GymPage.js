@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { isEmpty } from 'lodash'
+import { mapsAPI } from '../constants/API'
 import { Layout, Button } from 'antd'
 import { compose, withProps } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
@@ -9,7 +9,7 @@ const { Content } = Layout
 
 const MyMapComponent = compose(
   withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE&v=1.exp&libraries=geometry,drawing,places",
+    googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${mapsAPI()}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `80vh` }} />,
     mapElement: <div style={{ height: `100%` }} />,

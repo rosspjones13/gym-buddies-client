@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
 import { deleteBuddy, updateBuddyStatus } from '../redux/actions/buddies'
 import { Layout, List, Avatar, Badge, Icon, Dropdown, Menu } from 'antd'
@@ -76,15 +75,13 @@ class BuddyList extends Component {
     let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
       <Sider style={{ background: "#fff", height: "95vh", overflow: "auto" }}>
-        <List >
+        <List>
           {sortedBuddies.map(buddy => (
-            <Fragment>
+            <Fragment key={buddy.buddy.id}>
               <List.Item
-                key={buddy.buddy.id}
                 style={{ height: '6vh' }}
               >
                 <List.Item.Meta
-                  key={buddy.buddy.id}
                   onClick={() => currentBuddyMessages(buddy)}
                   avatar={<Badge count={buddy.messages.filter(message => !message.read && message.username.username !== currentUser.username).length}>
                     <Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
