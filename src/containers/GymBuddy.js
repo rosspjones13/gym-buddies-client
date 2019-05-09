@@ -7,9 +7,12 @@ import SearchPage from './SearchPage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions/loginUser'
+import { currentUserOnline } from '../redux/actions/currentUser'
+import { receiveBuddyMessages } from '../redux/actions/messages'
+import { ActionCableConsumer } from 'react-actioncable-provider';
+import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import { Layout, Spin } from 'antd'
-import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 const { Footer } = Layout
 
@@ -17,6 +20,18 @@ class GymBuddy extends Component {
   componentDidMount(){
     this.props.fetchingLoggedUser()
   }
+
+  handleConnected = () => {
+    const { currentUser, currentUserOnline } = this.props
+    currentUser.status = "online"
+    currentUserOnline(currentUser)
+  }
+
+  handleReceivedMessage = newMessage => {
+    const { receiveBuddyMessages, userBuddies } = this.props
+    let recieveMessage = userBuddies.find(buddy => buddy.buddy.id === newMessage.buddy_id)
+    receiveBuddyMessages(recieveMessage.buddy.id, newMessage)
+  };
 
   render() {
     const { currentUser, loading } = this.props
@@ -27,6 +42,11 @@ class GymBuddy extends Component {
         <Spin size="large" style={{ marginTop: '200px', height: '100vh' }}/>
         :
           <Layout style={{ background: 'white' }}>
+            <ActionCableConsumer
+              channel={{ channel: 'MessagesChannel', buddy: currentUser.id }}
+              onReceived={this.handleReceivedMessage}
+              onConnected={this.handleConnected}
+            />
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
               <Route exact path="/profile" render={() => {
@@ -75,12 +95,15 @@ const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
     loading: state.loading,
+    userBuddies: state.userBuddies
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchingLoggedUser: () => { dispatch(fetchingLoggedUser()) },
+    currentUserOnline: (user) => { dispatch(currentUserOnline(user)) },
+    receiveBuddyMessages: (buddy_id, newMessage) => { dispatch(receiveBuddyMessages(buddy_id, newMessage)) }
   }
 }
 
