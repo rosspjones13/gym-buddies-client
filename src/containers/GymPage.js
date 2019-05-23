@@ -2,9 +2,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { mapsAPI } from '../constants/API'
-import { Layout, Button } from 'antd'
-import { compose, withProps, withHandlers, withState } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import { Layout, Button, Drawer, Checkbox, Divider } from 'antd'
+import { compose, withProps, withHandlers, withState, withStateHandlers } from "recompose"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import { SearchBox } from "react-google-maps/lib/components/places/SearchBox"
 
 const { Content } = Layout
@@ -19,6 +19,13 @@ const MyMapComponent = compose(
   withScriptjs,
   withGoogleMap,
   withState('places', 'updatePlaces', ''),
+  withStateHandlers(() => ({
+      isOpen: false,
+    }), {
+    onToggleOpen: ({ isOpen }) => () => ({
+      isOpen: !isOpen,
+    })
+  }),
   withHandlers(() => {
     const refs = {
       map: undefined,
@@ -38,13 +45,13 @@ const MyMapComponent = compose(
         }
         service.nearbySearch(request, (results, status) => {
           if (status == google.maps.places.PlacesServiceStatus.OK) {
-            console.log(results)
             updatePlaces(results)
           }
         })
       }
     }
   }),
+  
 )((props) =>
   <GoogleMap
     onTilesLoaded={props.fetchPlaces}
@@ -53,14 +60,40 @@ const MyMapComponent = compose(
     defaultZoom={12}
     defaultCenter={{ lat: props.latitude, lng: props.longitude }}
   >
-    {console.log(props)}
-    {props.places && props.places.map((place, i) =>
+    <Marker
+      position={{ lat: props.latitude, lng: props.longitude }}
+      icon={"https://img.icons8.com/color/48/000000/map-pin.png"}
+      label="You are here"
+    />
+    {props.places && props.places.map((place, i) => {
+      const onClick = props.onClick.bind(this, place)
+      const onCheckinClick = props.onCheckinClick.bind(this, place)
+
+      return (
       <Marker 
         key={i} 
         position={{ lat: place.geometry.location.lat(), lng: place.geometry.location.lng() }} 
-        icon={require('../images/iconfinder_gym_38044.png')}  
-      />
-    )}
+        icon={require('../images/iconfinder_gym_38044.png')}
+        onClick={onClick}
+      >
+        {props.selectedMarker === place &&
+        <InfoWindow style={{ display: "flex", justifyContent: "center" }}>
+          <div>
+            <h2>{place.name}</h2>
+            <Button
+              onClick={onCheckinClick}
+              type="primary"
+              shape="round"
+              icon="check"
+              size="small"
+            >
+              Show Check-ins
+            </Button>
+          </div>
+        </InfoWindow>}
+      </Marker>
+      )
+    })}
   </GoogleMap>
 )
 
@@ -70,7 +103,9 @@ class GymPage extends Component {
     this.state = {
       showMap: false,
       latitude: 0,
-      longitude: 0
+      longitude: 0,
+      selectedMarker: false,
+      showCheckinDrawer: false,
     }
   }
 
@@ -81,7 +116,7 @@ class GymPage extends Component {
     this.setState({
       showMap: true,
       latitude,
-      longitude
+      longitude,
     })
   }
 
@@ -93,20 +128,60 @@ class GymPage extends Component {
     navigator.geolocation.getCurrentPosition(this.success, this.error)
   }
 
+  handleClick = (marker) => {
+    this.setState({ selectedMarker: marker })
+  }
+
+  handleOnCheckinClick = (marker) => {
+    this.setState({ showCheckinDrawer: marker })
+  }
+
+  handleCheckin = () => {
+    console.log("check")
+  }
+
+  onCloseDrawer = () => {
+    this.setState({ showCheckinDrawer: false })
+  }
+
   render() {
-    const { showMap, latitude, longitude } = this.state
+    const { showMap, latitude, longitude, selectedMarker, showCheckinDrawer } = this.state
     return (
       <Layout style={{ background: "#fff" }}>
-        <Content style={{ justifyContent: "center" }}>
+        <Content style={{ marginTop: "2vh" }}>
+        <Drawer
+          closable={true}
+          title={showCheckinDrawer.name}
+          onClose={this.onCloseDrawer}
+          visible={showCheckinDrawer !== false}
+        >
+          <Checkbox
+            checked={false}
+            onChange={this.handleCheckin}
+          >
+            Check-In Here
+          </Checkbox>
+          <Divider />
+          <p>{showCheckinDrawer.name}</p>
+        </Drawer>
         {showMap ? 
-          <MyMapComponent isMarkerShown latitude={latitude} longitude={longitude} /> :
-          <Button 
-            onClick={this.getPosition} 
-            type="primary" 
-            shape="round" 
-            icon="global"
-            style={{ marginTop: "2vh", alignItems: "center" }}
-          >Show Gyms Near Me</Button>
+          <MyMapComponent 
+            selectedMarker={selectedMarker} 
+            latitude={latitude} 
+            longitude={longitude}
+            onClick={this.handleClick}
+            onCheckinClick={this.handleOnCheckinClick}
+          /> 
+          :
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button 
+              onClick={this.getPosition} 
+              type="primary" 
+              shape="round" 
+              icon="global"
+              size="large"
+              >Show Gyms Near Me</Button>
+          </div>
         }
         </Content>
       </Layout>
