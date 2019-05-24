@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
 import { isEmpty } from 'lodash'
-import { Row, Col, Icon, Input, Radio, Typography, Card, Avatar } from 'antd'
+import { Row, Col, Icon, Input, Radio, Typography, Card, Avatar, Badge } from 'antd'
 
 const { Meta } = Card
 const { Title } = Typography
@@ -89,9 +89,6 @@ class SearchBar extends Component {
     if (searchType === "username") {
       foundUsers =  allUsers.filter(user =>user.username.toLowerCase().includes(searchText.toLowerCase()) && user.id !== currentUser.id)
     }
-    else if (searchType === "location") {
-      foundUsers = allUsers.filter(user => user.location === parseInt(searchText) && user.id !== currentUser.id)
-    }
     else {
       foundUsers = allUsers.filter(user => user.id !== currentUser.id && (user.first_name.toLowerCase().includes(searchText.toLowerCase()) || user.last_name.toLowerCase().includes(searchText.toLowerCase())))
     }
@@ -113,7 +110,6 @@ class SearchBar extends Component {
             >
               <Radio.Button value="username">Username</Radio.Button>
               <Radio.Button value="full name">Full Name</Radio.Button>
-              <Radio.Button value="location">Zip Code</Radio.Button>
             </Radio.Group>
           </Col>
         </Row>
@@ -140,16 +136,19 @@ class SearchBar extends Component {
              :
             userResults.map(user => {
               return (
-              <Col key={user.id} span={5} offset={2}>
+              <Col key={user.id} span={6} offset={1}>
                 <Card
                   style={{ marginTop: "20px" }}
-                  title={`${user.username}`}
+                  title={`${user.first_name} ${user.last_name}`}
                   extra={<Icon type="user-add" onClick={() => this.sendRequest(user)}/>}
                 >
                   <Meta
-                      avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}{user.last_name[0]}</Avatar>}
-                    title={`${user.first_name} ${user.last_name}`}
-                    description={`Zip: ${user.location}`}
+                    avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}{user.last_name[0]}</Avatar>}
+                    title={`@${user.username}`}
+                    description={<Badge
+                      status={user.status === "offline" ? "default" : "success"}
+                      text={user.status}
+                    />}
                   />
                 </Card>
               </Col>

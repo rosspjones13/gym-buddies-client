@@ -56,7 +56,6 @@ class BuddyList extends Component {
       if (nameA > nameB) {
         return 1;
       }
-
       // names must be equal
       return 0;
     })
@@ -79,7 +78,7 @@ class BuddyList extends Component {
           {sortedBuddies.map(buddy => (
             <Fragment key={buddy.buddy.id}>
               <List.Item
-                style={{ height: '6vh' }}
+                style={{ height: '8vh' }}
               >
                 <List.Item.Meta
                   onClick={() => currentBuddyMessages(buddy)}

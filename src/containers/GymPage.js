@@ -2,10 +2,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { mapsAPI } from '../constants/API'
-import { Layout, Button, Drawer, Checkbox, Divider } from 'antd'
+import { fetchingUsers } from '../redux/actions/allUsers'
+import { patchUserCheckin } from '../redux/actions/currentUser'
+import { Layout, Button, Drawer, Checkbox, Divider, List } from 'antd'
 import { compose, withProps, withHandlers, withState, withStateHandlers } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
-import { SearchBox } from "react-google-maps/lib/components/places/SearchBox"
+// import { SearchBox } from "react-google-maps/lib/components/places/SearchBox"
 
 const { Content } = Layout
 
@@ -36,7 +38,6 @@ const MyMapComponent = compose(
         refs.map = ref
       },
       fetchPlaces: ({ updatePlaces }) => () => {
-        let places
         const bounds = refs.map.getBounds()
         const service = new google.maps.places.PlacesService(refs.map.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED)
         const request = {
@@ -44,7 +45,7 @@ const MyMapComponent = compose(
           type: ['gym']
         }
         service.nearbySearch(request, (results, status) => {
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
             updatePlaces(results)
           }
         })
@@ -106,6 +107,8 @@ class GymPage extends Component {
       longitude: 0,
       selectedMarker: false,
       showCheckinDrawer: false,
+      checkedBuddies: [],
+      checkedUsers: []
     }
   }
 
@@ -126,6 +129,7 @@ class GymPage extends Component {
 
   getPosition = () => {
     navigator.geolocation.getCurrentPosition(this.success, this.error)
+    this.props.fetchingUsers()
   }
 
   handleClick = (marker) => {
@@ -133,19 +137,60 @@ class GymPage extends Component {
   }
 
   handleOnCheckinClick = (marker) => {
-    this.setState({ showCheckinDrawer: marker })
+    this.setState({ 
+      showCheckinDrawer: true,
+      checkedBuddies: this.filterBuddies(),
+    })
   }
 
   handleCheckin = () => {
-    console.log("check")
+    const { currentUser, patchUserCheckin } = this.props
+    const { selectedMarker } = this.state
+    if (currentUser.checkin !== selectedMarker.id) {
+      currentUser.checkin = selectedMarker.id
+      patchUserCheckin(currentUser)
+    }
+    else {
+      currentUser.checkin = "null"
+      patchUserCheckin(currentUser)
+    }
   }
 
   onCloseDrawer = () => {
     this.setState({ showCheckinDrawer: false })
   }
 
+  filterCheckedBuddies = () => {
+    const { userBuddies } = this.props
+    const { selectedMarker } = this.state
+    const checkedBuddies = userBuddies.filter(user => this.pickBuddy(user).checkin === selectedMarker.id)
+    debugger
+  }
+
+  pickBuddy = buddy => {
+    return buddy.requester.username === this.props.currentUser.username ? buddy.requestee : buddy.requester
+  }
+
+  sortNameList = checkedUsers => {
+    return checkedUsers.sort((userA, userB) => {
+      var buddyA = this.showBuddy(userA)
+      var buddyB = this.showBuddy(userB)
+      var nameA = buddyA.first_name.toUpperCase(); // ignore upper and lowercase
+      var nameB = buddyB.first_name.toUpperCase(); // ignore upper and lowercase
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      // names must be equal
+      return 0;
+    })
+  }
+
   render() {
-    const { showMap, latitude, longitude, selectedMarker, showCheckinDrawer } = this.state
+    const { showMap, latitude, longitude, selectedMarker, showCheckinDrawer, checkedBuddies, checkedUsers } = this.state
+    const { currentUser, userBuddies, allUsers } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
         <Content style={{ marginTop: "2vh" }}>
@@ -153,16 +198,28 @@ class GymPage extends Component {
           closable={true}
           title={showCheckinDrawer.name}
           onClose={this.onCloseDrawer}
-          visible={showCheckinDrawer !== false}
+          visible={showCheckinDrawer}
         >
           <Checkbox
-            checked={false}
+            checked={currentUser.checkin === selectedMarker.id}
             onChange={this.handleCheckin}
           >
             Check-In Here
           </Checkbox>
           <Divider />
-          <p>{showCheckinDrawer.name}</p>
+          <h3>Buddies Checked-In</h3>
+          <List
+            bordered
+            dataSource={checkedBuddies}
+            renderItem={user => (
+              <List.Item>
+                {user.first_name}
+              </List.Item>
+            )}
+          />
+          {allUsers.map}
+          <Divider />
+          <h3>All Checked-In</h3>
         </Drawer>
         {showMap ? 
           <MyMapComponent 
@@ -194,11 +251,14 @@ const mapStateToProps = state => {
   return {
     currentUser: state.currentUser,
     userBuddies: state.userBuddies,
+    allUsers: state.allUsers
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchingUsers: () => { dispatch(fetchingUsers()) },
+    patchUserCheckin: (user) => { dispatch(patchUserCheckin(user)) }
   }
 }
 

@@ -23,6 +23,25 @@ export function currentUserOnline(user) {
   }
 }
 
+export function patchUserCheckin(user) {
+  return (dispatch) => {
+    fetch(apiUrl + `users/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(user)
+    })
+      .then(res => res.json())
+      .then(user => { dispatch(updateUserCheckin(user)) })
+  }
+}
+
+export function updateUserCheckin(user) {
+  return { type: "UPDATE_USER_CHECKIN", user }
+}
+
 export function currentUserStatus(user) {
   return { type: "UPDATE_USER_STATUS", user }
 }

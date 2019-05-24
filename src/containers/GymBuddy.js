@@ -8,7 +8,7 @@ import GymPage from './GymPage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions/loginUser'
-import { currentUserOnline } from '../redux/actions/currentUser'
+import { currentUserOnline, currentUserOffline } from '../redux/actions/currentUser'
 import { receiveBuddyMessages } from '../redux/actions/messages'
 import { ActionCableConsumer } from 'react-actioncable-provider';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
@@ -22,11 +22,11 @@ class GymBuddy extends Component {
     this.props.fetchingLoggedUser()
   }
 
-  handleConnected = () => {
-    const { currentUser, currentUserOnline } = this.props
-    currentUser.status = "online"
-    currentUserOnline(currentUser)
-  }
+  // handleConnected = () => {
+  //   const { currentUser, currentUserOnline } = this.props
+  //   currentUser.status = "online"
+  //   currentUserOnline(currentUser)
+  // }
 
   handleReceivedMessage = newMessage => {
     const { receiveBuddyMessages, userBuddies } = this.props
@@ -43,11 +43,10 @@ class GymBuddy extends Component {
         <Spin size="large" style={{ marginTop: '200px', height: '100vh' }}/>
         :
           <Layout style={{ background: 'white' }}>
-            <ActionCableConsumer
+            {isEmpty(currentUser) ? null : <ActionCableConsumer
               channel={{ channel: 'MessagesChannel', buddy: currentUser.id }}
               onReceived={this.handleReceivedMessage}
-              onConnected={this.handleConnected}
-            />
+            />}
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
               <Route exact path="/profile" render={() => {

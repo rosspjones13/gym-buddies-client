@@ -9,7 +9,7 @@ export function loadingUser() {
 }
 
 export function logoutUser() {
-  return { type: "LOGOUT_USER"}
+  return { type: "LOGOUT_USER" }
 }
 
 export function currentUserOffline(user) {
