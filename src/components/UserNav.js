@@ -25,17 +25,6 @@ class UserNav extends Component {
     const { menuCollapse, toggleMenu } = this.props
     return (
       <Fragment>
-        {/* <ActionCableConsumer
-          channel={{ channel: 'BuddiesChannel' }}
-          onConnected={this.handleConnected}
-        /> */}
-        {/* {!isEmpty(userBuddies) ? userBuddies.map(buddy => {
-          return (<ActionCableConsumer
-          key={buddy.buddy.id}
-          channel={{ channel: 'MessagesChannel', buddy: buddy.buddy.id }}
-          onReceived={(res) => this.handleReceivedMessage(res, buddy.buddy.id)}
-        />)}
-        ) : null} */}
         <Sider
           trigger={null}
           collapsible
@@ -45,25 +34,25 @@ class UserNav extends Component {
           <Menu theme="light" mode="inline">
             <Menu.Item key="1">
               <Link to="/profile">
-                <Icon type="calendar" style={{ fontSize: 20 }}/>
+                <Icon type="calendar" theme="twoTone" twoToneColor="#f45642" style={{ fontSize: 24 }} />
                 <span>My Workouts</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="2" onClick={this.handleMessageClick}>
               <Link to="/messages">
-                <Icon type="message" style={{ fontSize: 20 }}/>
+                <Icon type="message" theme="twoTone" style={{ fontSize: 24 }}/>
                 <span>Messages</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="3">
               <Link to="/search">
-                <Icon type="usergroup-add" style={{ fontSize: 20 }}/>
+                <Icon type="smile" theme="twoTone" twoToneColor="#ccbe02" style={{ fontSize: 24 }}/>
                 <span>Find Buddies</span>
               </Link>
             </Menu.Item>
             <Menu.Item key="4">
               <Link to="/gym-map">
-                <Icon type="check-square" style={{ fontSize: 20 }}/>
+                <Icon type="environment" theme="twoTone" twoToneColor="#52c41a" style={{ fontSize: 24 }}/>
                 <span>Gym Check-in</span>
               </Link>
             </Menu.Item>

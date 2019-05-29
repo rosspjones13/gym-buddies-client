@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { postNewWorkout, updateUserWorkouts } from '../redux/actions/workouts'
-import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePicker, InputNumber, Typography } from 'antd'
+import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePicker, InputNumber, Typography, Drawer } from 'antd'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
+import DayExerciseList from './DayExerciseList';
 
 const { Text, Title } = Typography
 const { Option } = Select
@@ -15,10 +16,10 @@ class WorkoutCalendar extends Component {
     let today = Date.now()
     this.state = {
       selectedDay: moment(today),
-      // selectedMonth: moment(today).month(),
-      hovered: false,
       hoverContent: "",
+      dayDrawer: false,
       modalVisible: false,
+      todaysWorkouts: [],
       exerciseCategory: [],
       exerciseSelected: {},
       currentImage: "",
@@ -40,13 +41,21 @@ class WorkoutCalendar extends Component {
     }
     this.setState({
       hoverContent: content,
-    });
+    })
   }
 
   onSelect = (value) => {
     this.setState({
       selectedDay: value,
-    });
+      todaysWorkouts: this.findTodaysWorkouts(value), 
+      dayDrawer: true 
+    })
+  }
+
+  onCloseDrawer = (visible) => {
+    this.setState({
+      dayDrawer: false
+    })
   }
 
   onAddWorkoutClick = (value) => {
@@ -155,41 +164,47 @@ class WorkoutCalendar extends Component {
     );
     return (
       <Fragment>
-        <Icon type="plus-circle" onClick={() => this.onAddWorkoutClick(value)}/> Add
-        <ul
-          className="workouts" 
-          style={{ listStyle: "none", margin: "0", padding: "0" }}
-        >
-          {
-            todaysWorkouts.map(workout =>
-              <Popover
-                key={workout.workout.id}
-                style={{ width: 500 }}
-                placement="topLeft"
-                content={hoverInfo}
-                title={workout.exercise.name}
-                trigger="hover"
-                onVisibleChange={() => this.handleHoverChange(workout)}
-              >
-                <li >
-                  <Badge
-                    status="success"
-                    text={workout.exercise.name} 
-                    />
-                </li>
-              </Popover>
-            )
-          }
+        {/* <Icon type="plus-circle" onClick={() => this.onAddWorkoutClick(value)}/> Add */}
+        <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
+          {todaysWorkouts.map(workout =>
+            <Popover
+              key={workout.workout.id}
+              style={{ width: 500 }}
+              placement="right"
+              content={hoverInfo}
+              title={workout.exercise.name}
+              trigger="hover"
+              onVisibleChange={() => this.handleHoverChange(workout)}
+            >
+              <li style={{ whiteSpace: 'nowrap' }}>
+                <Badge
+                  status="success"
+                  text={workout.exercise.name} 
+                />
+              </li>
+            </Popover>
+          )}
         </ul>
       </Fragment>
     )
   }
 
+  findTodaysWorkouts = (value) => {
+    const { userWorkouts } = this.props
+    let date = moment(value).format('YYYY-MM-DD')
+    return userWorkouts.filter(workout => workout.workout.workout_date === date)
+  }
+
   render() {
-    const { selectedDay, modalVisible, exerciseCategory, exerciseSelected, currentImage } = this.state;
+    const { selectedDay, modalVisible, exerciseCategory, exerciseSelected, currentImage, dayDrawer, todaysWorkouts } = this.state;
     return (
       <div>
-        <Title level={3}>My Workout Calendar</Title>
+        <Title 
+          level={3}
+          style={{ margin: '1vh 1vw'}}
+        >
+          My Workout Calendar
+        </Title>
         <Modal
           title={`Add a new workout on ${selectedDay.format('MM-DD-YYYY')}`}
           centered
@@ -275,7 +290,19 @@ class WorkoutCalendar extends Component {
             </Row>
           }
         </Modal>
-        <Calendar 
+        <Drawer
+          title={`Workouts on ${selectedDay.format('MM-DD-YYYY')}`}
+          closable={true}
+          onClose={this.onCloseDrawer}
+          visible={dayDrawer}
+        >
+          <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
+            {todaysWorkouts.map(workout =>
+              <DayExerciseList key={workout.workout.id} workout={workout}/>
+            )}
+          </ul>
+        </Drawer>
+        <Calendar
           value={selectedDay}
           onSelect={this.onSelect}
           onPanelChange={this.onPanelChange}

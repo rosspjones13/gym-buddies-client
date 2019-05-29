@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { currentUserOffline } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
-import { Button, Icon, Typography, Layout, Row, Col } from 'antd';
+import { Button, Icon, Typography, Layout } from 'antd';
 
 const { Header } = Layout
-const { Title, Text } = Typography
+const { Text } = Typography
 
 class NavBar extends Component {
   handleSubmit = (e) => {
