@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Login from '../components/Login'
 import NavBar from '../components/NavBar'
+import MessageCable from '../cables/MessageCable'
 import UserPage from './UserPage'
 import MessagePage from './MessagePage'
 import SearchPage from './SearchPage'
@@ -43,10 +44,7 @@ class GymBuddy extends Component {
         <Spin size="large" style={{ marginTop: '200px', height: '100vh' }}/>
         :
           <Layout style={{ background: 'white' }}>
-            {isEmpty(currentUser) ? null : <ActionCableConsumer
-              channel={{ channel: 'MessagesChannel', buddy: currentUser.id }}
-              onReceived={this.handleReceivedMessage}
-            />}
+            <MessageCable />
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/profile"/>}/>
               <Route exact path="/profile" render={() => {

@@ -73,7 +73,7 @@ class BuddyList extends Component {
     const { menu, showBuddy } = this
     let sortedBuddies = this.filterBuddyStatusList(userBuddies)
     return (
-      <Sider style={{ background: "#fff", height: "95vh", overflow: "auto" }}>
+      <Sider style={{ background: "#fff", height: "80vh", overflow: "auto" }}>
         <List>
           {sortedBuddies.map(buddy => (
             <Fragment key={buddy.buddy.id}>

@@ -2,27 +2,14 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateReadMessage } from '../redux/actions/messages'
 import { List, Avatar } from 'antd'
-import { isEmpty } from 'lodash'
 
 class Message extends Component {
-  scrollToBottom = () => {
-    const { currentBuddy } = this.props
-    if (!isEmpty(currentBuddy.messages)) {
-      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-
   componentDidMount() {
     const { message, updateReadMessage, currentUser } = this.props
-    this.scrollToBottom();
     if (!message.read && currentUser.username !== message.username.username) {
       message.read = true
       updateReadMessage(message)
     }
-  }
-
-  componentDidUpdate() {
-    this.scrollToBottom();
   }
 
   formatDate(date) {
@@ -40,9 +27,6 @@ class Message extends Component {
           description={message.username.first_name}
         />
         <div>@{this.formatDate(message.created_at)}</div>
-        <div style={{ float: "left", clear: "both" }}
-          ref={(el) => { this.messagesEnd = el; }}>
-        </div>
       </List.Item>
     )
   }
@@ -63,4 +47,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Message)
-// export default Message

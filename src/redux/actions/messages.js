@@ -10,6 +10,8 @@ export function postNewMessage(newMessage) {
       },
       body: JSON.stringify(newMessage)
     })
+      .then(res => res.json())
+      .then(status => dispatch(updateBuddyMessages(status.object.buddy_id, status.object)))
   }
 }
 
@@ -28,9 +30,9 @@ export function updateReadMessage(message) {
   }
 }
 
-// export function updateBuddyMessages(buddy_id, message) {
-//   return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message}
-// }
+export function updateBuddyMessages(buddy_id, message) {
+  return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message}
+}
 
 export function receiveBuddyMessages(buddy_id, message) {
   return { type: "UPDATE_BUDDY_MESSAGES", buddy_id, message }
