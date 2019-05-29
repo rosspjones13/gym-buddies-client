@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { currentUserOffline } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
@@ -22,33 +22,36 @@ class NavBar extends Component {
   render() {
     const { currentUser } = this.props
     return (
-      <Header className="header">
-        <Row type="flex" justify="space-between" align="middle">
-          <Col span={12} offset={2}>
-            <Title level={2} style={{ color: 'white' }}>
-              Gym Buddies
-            </Title>
-          </Col>
+      <Header 
+        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10vw' }}
+      >
+        <Text
+          style={{ color: 'white', fontSize: '2.5em', margin: 0 }}
+        >
+          Gym Buddies
+        </Text>
+        <Fragment>
           {isEmpty(currentUser) ? 
-            <Col span={6}>
-              <Text style={{ color: 'white', whiteSpace: 'nowrap' }}>
-                Find a local gym buddy and reach your goals together!
-              </Text>
-            </Col>
+            <Text style={{ color: 'white', fontSize: '1.25em', whiteSpace: 'nowrap' }}>
+              Find a local gym buddy and reach your goals together!
+            </Text>
             :
-            <Col span={2} onClick={this.handleLogout}>
-              <Button type="primary" ghost>
+            <div>
+              <Text style={{ color: 'white', fontSize: '1.25em', marginRight: '1vw' }}>
+                Hi, {currentUser.first_name}!
+              </Text>
+              <Button onClick={this.handleLogout} type="primary" ghost>
                 <Text style={{ color: 'white' }}>
                   Logout
                 </Text>
                 <Icon
                   type="logout" 
                   style={{ color: '#0085fd', fontSize: 14 }} 
-                />
+                  />
               </Button>
-            </Col>
+            </div>
           }
-        </Row>
+        </Fragment>
       </Header>
     )
   }

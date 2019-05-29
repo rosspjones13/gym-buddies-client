@@ -26,9 +26,11 @@ class NewMessageForm extends Component {
 
   render() {
     return (
-      <Footer style={{ background: "#fff", textAlign: 'center' }}>
+      <Footer 
+        style={{ background: "#fff", textAlign: 'center', paddingLeft: 0, paddingRight: 0 }}
+      >
         <Row>
-          <Col span={16} offset={4}>
+          <Col span={20} offset={2}>
             <Search 
               className="new-message" 
               placeholder="Start typing..."

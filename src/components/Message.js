@@ -14,7 +14,10 @@ class Message extends Component {
 
   formatDate(date) {
     let newD = new Date(date)
-    return `${newD.toLocaleTimeString()} ${newD.toLocaleDateString()}`
+    return <div style={{ textAlign: 'right' }}>
+            <p style={{ marginBottom: 0 }}>{newD.toLocaleTimeString()}</p>
+            <p style={{ marginBottom: 0 }}>{newD.toLocaleDateString()}</p>
+          </div>
   }
 
   render() {
@@ -22,11 +25,12 @@ class Message extends Component {
     return (
       <List.Item key={message.id}>
         <List.Item.Meta
+          style={{ alignItems: 'center' }}
           avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{message.username.first_name[0]}</Avatar>}
           title={message.content}
           description={message.username.first_name}
         />
-        <div>@{this.formatDate(message.created_at)}</div>
+        <div>{this.formatDate(message.created_at)}</div>
       </List.Item>
     )
   }

@@ -30,10 +30,11 @@ class MessageList extends Component {
         {isEmpty(currentBuddy.messages) ? null :
         <Fragment>
         <Row type="flex" align="top">
-          <Col span={16} offset={4}>
-            <div style={{ height: "75vh", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
+          <Col span={20} offset={2}>
+            <div style={{ height: "80vh", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
               <List
-                style={{ maxWidth: "75em", justifySelf: 'center' }}
+                bordered
+                style={{ justifySelf: 'center' }}
                 dataSource={currentBuddy.messages}
                 renderItem={message => (
                   <Message message={message} />
