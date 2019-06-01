@@ -1,4 +1,4 @@
-export const menuCollapseReducer = (state = false, action) => {
+export const menuCollapseReducer = (state = true, action) => {
   switch (action.type) {
     case "TOGGLE_MENU":
       return !state

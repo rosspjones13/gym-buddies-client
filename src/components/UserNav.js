@@ -29,7 +29,7 @@ class UserNav extends Component {
           trigger={null}
           collapsible
           collapsed={menuCollapse}
-          style={{ height: '90vh', background: '#fff' }}
+          style={{ height: '88vh', background: '#fff' }}
         >
           <Menu theme="light" mode="inline">
             <Menu.Item key="1">

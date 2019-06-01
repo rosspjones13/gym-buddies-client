@@ -15,7 +15,7 @@ class UserPage extends Component {
   }
   render() {
     return (
-      <Layout style={{ background: '#fff'}}>
+      <Layout style={{ background: '#fff' }}>
         <Content style={{ textAlign: 'center' }}>
           <WorkoutCalendar />
         </Content>

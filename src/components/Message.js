@@ -14,7 +14,7 @@ class Message extends Component {
 
   formatDate(date) {
     let newD = new Date(date)
-    return <div style={{ textAlign: 'right' }}>
+    return <div style={{ textAlign: 'right', paddingRight: '1vw' }}>
             <p style={{ marginBottom: 0 }}>{newD.toLocaleTimeString()}</p>
             <p style={{ marginBottom: 0 }}>{newD.toLocaleDateString()}</p>
           </div>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { receiveBuddyMessages } from '../redux/actions/messages'
 import Message from './Message'
 import { isEmpty } from 'lodash'
-import { Layout, List, Row, Col } from 'antd'
+import { Layout, List } from 'antd'
 
 const { Content } = Layout
 
@@ -29,23 +29,18 @@ class MessageList extends Component {
       <Content style={{ background: "#fff" }}>
         {isEmpty(currentBuddy.messages) ? null :
         <Fragment>
-        <Row type="flex" align="top">
-          <Col span={20} offset={2}>
-            <div style={{ height: "80vh", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
-              <List
-                bordered
-                style={{ justifySelf: 'center' }}
-                dataSource={currentBuddy.messages}
-                renderItem={message => (
-                  <Message message={message} />
-                )}
-              />
-            </div>
-          </Col>
-        </Row>
-        <div style={{ float: "left", clear: "both" }}
-          ref={(el) => { this.messagesEnd = el; }}>
-        </div>
+          <div style={{ height: "77vh", overflow: "auto", display: "flex", flexDirection: "column-reverse" }}>
+            <List
+              style={{ justifySelf: 'center' }}
+              dataSource={currentBuddy.messages}
+              renderItem={message => (
+                <Message message={message} />
+              )}
+            />
+          </div>
+          <div style={{ float: "left", clear: "both" }}
+            ref={(el) => { this.messagesEnd = el; }}>
+          </div>
         </Fragment>
         }
       </Content>

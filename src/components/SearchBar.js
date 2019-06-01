@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
 import { isEmpty } from 'lodash'
-import { Row, Col, Icon, Input, Radio, Typography, Card, Avatar, Badge } from 'antd'
+import { Icon, Input, Radio, Typography, Card, Avatar, Badge, Popconfirm, message } from 'antd'
 
 const { Meta } = Card
 const { Title } = Typography
@@ -44,6 +44,7 @@ class SearchBar extends Component {
   sendRequest = user => {
     const { currentUser, sendBuddyRequest, updateUserBuddies } = this.props
     const { userResults } = this.state
+    message.success(`Added ${user.first_name} to buddies!`);
     sendBuddyRequest(user, currentUser)
     updateUserBuddies({
       buddy: {
@@ -99,48 +100,53 @@ class SearchBar extends Component {
     let { allUsers } = this.props
     let { searchType, userResults, searchText, noResults } = this.state
     return (
-      <Col style={{ marginTop: '20px' }}>
-        <Row>
-          <Col span={24}>
-            Search By:
-            <Radio.Group 
-              style={{ marginLeft: '20px' }}
-              onChange={this.onSearchChange} 
-              defaultValue="username"
-            >
-              <Radio.Button value="username">Username</Radio.Button>
-              <Radio.Button value="full name">Full Name</Radio.Button>
-            </Radio.Group>
-          </Col>
-        </Row>
-        <Row>
-          {isEmpty(allUsers) ? null :
-            <Col span={24}>
-              <Search
-                placeholder={`Search by ${searchType}...`}
-                style={{ marginTop: "20px", width: '60vw' }}
-                value={searchText}
-                onChange={this.onInputChange}
-                onSearch={this.handleSearch}
-                enterButton="Find" 
-                size="large"
-                suffix={<Icon type="search"/>}
-              />
-            </Col>
-          }
-        </Row>
-        <Row type="flex">
-          {noResults ? <Title level={4} style={{ color: 'red' }}>No results or new buddies found!</Title> : null}
-          {isEmpty(userResults) ?
-            null
-             :
-            userResults.map(user => {
+      <Fragment>
+        <div >
+          <p>Search By:</p>
+          <Radio.Group 
+            style={{ marginLeft: '20px' }}
+            onChange={this.onSearchChange} 
+            defaultValue="username"
+          >
+            <Radio.Button value="username">Username</Radio.Button>
+            <Radio.Button value="full name">Full Name</Radio.Button>
+          </Radio.Group>
+        </div>
+        {isEmpty(allUsers) ? null :
+          <Search
+            placeholder={`Search by ${searchType}...`}
+            style={{ marginTop: "20px", width: '60vw' }}
+            value={searchText}
+            onChange={this.onInputChange}
+            onSearch={this.handleSearch}
+            enterButton="Find" 
+            size="large"
+            suffix={<Icon type="search"/>}
+          />
+        }
+        {noResults ? <Title level={4} style={{ color: 'red' }}>No results or new buddies found!</Title> : null}
+        {isEmpty(userResults) ?
+          null
+            :
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+            {userResults.map(user => {
               return (
-              <Col key={user.id} span={6} offset={1}>
                 <Card
-                  style={{ marginTop: "20px" }}
+                  key={user.id}
+                  style={{ width: '30%', boxSizing: 'border-box', margin: '1em' }}
                   title={`${user.first_name} ${user.last_name}`}
-                  extra={<Icon type="user-add" onClick={() => this.sendRequest(user)}/>}
+                  extra={
+                    <Popconfirm
+                      title={`Add ${user.first_name} ${user.last_name} to buddies?`}
+                      onConfirm={() => this.sendRequest(user)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Avatar style={{ color: '#306644', backgroundColor: '#71c490' }}>
+                        <Icon type="user-add"/>
+                      </Avatar>
+                    </Popconfirm>
+                  }
                 >
                   <Meta
                     avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2' }}>{user.first_name[0]}{user.last_name[0]}</Avatar>}
@@ -151,12 +157,11 @@ class SearchBar extends Component {
                     />}
                   />
                 </Card>
-              </Col>
-              )
-            })
-          }
-        </Row>
-      </Col>
+              )}
+            )}
+          </div>
+        }
+      </Fragment>
     )
   }
 }

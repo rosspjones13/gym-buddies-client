@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { postNewWorkout, updateUserWorkouts } from '../redux/actions/workouts'
-import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePicker, InputNumber, Typography, Drawer } from 'antd'
+import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePicker, InputNumber, Typography, Drawer, Divider } from 'antd'
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 import DayExerciseList from './DayExerciseList';
@@ -60,8 +60,6 @@ class WorkoutCalendar extends Component {
 
   onAddWorkoutClick = (value) => {
     this.setState({
-      selectedDay: value,
-      selectedMonth: value.month(),
       modalVisible: true
     })
   }
@@ -153,10 +151,8 @@ class WorkoutCalendar extends Component {
   }
 
   dateCellRender = (value) => {
-    const { userWorkouts } = this.props
     const { hoverContent } = this.state
-    let date = moment(value).format('YYYY-MM-DD')
-    let todaysWorkouts = userWorkouts.filter(workout => workout.workout.workout_date === date)
+    let todaysWorkouts = this.findTodaysWorkouts(value)
     const hoverInfo = (
       <div>
         {hoverContent}
@@ -164,7 +160,6 @@ class WorkoutCalendar extends Component {
     );
     return (
       <Fragment>
-        {/* <Icon type="plus-circle" onClick={() => this.onAddWorkoutClick(value)}/> Add */}
         <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
           {todaysWorkouts.map(workout =>
             <Popover
@@ -200,7 +195,7 @@ class WorkoutCalendar extends Component {
     return (
       <div>
         <Title 
-          level={3}
+          level={4}
           style={{ margin: '1vh 1vw'}}
         >
           My Workout Calendar
@@ -301,6 +296,8 @@ class WorkoutCalendar extends Component {
               <DayExerciseList key={workout.workout.id} workout={workout}/>
             )}
           </ul>
+          <Divider />
+          <Icon type="plus-circle" onClick={this.onAddWorkoutClick} /> Add a workout
         </Drawer>
         <Calendar
           value={selectedDay}
