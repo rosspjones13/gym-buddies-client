@@ -4,21 +4,19 @@ import { connect } from 'react-redux'
 import { mapsAPI } from '../constants/API'
 import { fetchingUsers } from '../redux/actions/allUsers'
 import { patchUserCheckin } from '../redux/actions/currentUser'
-import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
-import { Layout, Button, Drawer, Checkbox, Divider, List, Badge, Avatar, Icon, message, Popconfirm, Typography } from 'antd'
+import { Layout, Button, Drawer, Checkbox, Divider, List } from 'antd'
 import { compose, withProps, withHandlers, withState, withStateHandlers } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
-import { isEmpty } from 'lodash'
+// import { SearchBox } from "react-google-maps/lib/components/places/SearchBox"
 
 const { Content } = Layout
-const { Text } = Typography
 
 const MyMapComponent = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${mapsAPI()}&v=3.exp&libraries=geometry,drawing,places`,
-    loadingElement: <div style={{ height: '100%' }} />,
-    containerElement: <div style={{ height: '85vh', width: '98%' }} />,
-    mapElement: <div style={{ height: '100%' }} />,
+    loadingElement: <div style={{ height: `100%` }} />,
+    containerElement: <div style={{ height: `80vh` }} />,
+    mapElement: <div style={{ height: `100%` }} />,
   }),
   withScriptjs,
   withGoogleMap,
@@ -141,8 +139,7 @@ class GymPage extends Component {
   handleOnCheckinClick = (marker) => {
     this.setState({ 
       showCheckinDrawer: true,
-      checkedBuddies: this.filterCheckedBuddies(),
-      checkedUsers: this.filterCheckedUsers(),
+      checkedBuddies: this.filterBuddies(),
     })
   }
 
@@ -160,24 +157,14 @@ class GymPage extends Component {
   }
 
   onCloseDrawer = () => {
-    this.setState({ 
-      showCheckinDrawer: false,
-      selectedMarker: false 
-    })
+    this.setState({ showCheckinDrawer: false })
   }
 
-  filterCheckedUsers = () => {
-    const { allUsers } = this.props
-    const { selectedMarker } = this.state
-    const checkedBuddies = this.filterCheckedBuddies()
-    return allUsers.filter(user => user.checkin === selectedMarker.id && !checkedBuddies.find(buddy => buddy.id === user.id))
-  }
-  
   filterCheckedBuddies = () => {
     const { userBuddies } = this.props
     const { selectedMarker } = this.state
     const checkedBuddies = userBuddies.filter(user => this.pickBuddy(user).checkin === selectedMarker.id)
-    return checkedBuddies.map(buddy => this.pickBuddy(buddy))
+    debugger
   }
 
   pickBuddy = buddy => {
@@ -201,132 +188,58 @@ class GymPage extends Component {
     })
   }
 
-  sendRequest = user => {
-    const { currentUser, sendBuddyRequest, updateUserBuddies } = this.props
-    const { checkedUsers, checkedBuddies } = this.state
-    message.success(`Added ${user.first_name} to buddies!`);
-    sendBuddyRequest(user, currentUser)
-    updateUserBuddies({
-      buddy: {
-        requester_id: currentUser.id,
-        requestee_id: user.id,
-        buddy_type: "pending"
-      },
-      requester: {
-        id: currentUser.id,
-        first_name: currentUser.first_name,
-        last_name: currentUser.last_name,
-        username: currentUser.username,
-        status: currentUser.status
-      },
-      requestee: {
-        id: user.id,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username,
-        status: user.status
-      },
-      messages: []
-    })
-    let updateUsers = checkedUsers.filter(checkedUser => checkedUser.id !== user.id)
-    this.setState({
-      checkedBuddies: [...checkedBuddies, user],
-      checkedUsers: updateUsers
-    })
-  }
-
   render() {
     const { showMap, latitude, longitude, selectedMarker, showCheckinDrawer, checkedBuddies, checkedUsers } = this.state
-    const { currentUser } = this.props
+    const { currentUser, userBuddies, allUsers } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
         <Content style={{ marginTop: "2vh" }}>
-          <Drawer
-            closable={true}
-            title={selectedMarker.name}
-            onClose={this.onCloseDrawer}
-            visible={showCheckinDrawer}
+        <Drawer
+          closable={true}
+          title={showCheckinDrawer.name}
+          onClose={this.onCloseDrawer}
+          visible={showCheckinDrawer}
+        >
+          <Checkbox
+            checked={currentUser.checkin === selectedMarker.id}
+            onChange={this.handleCheckin}
           >
-            <Checkbox
-              checked={currentUser.checkin === selectedMarker.id}
-              onChange={this.handleCheckin}
-            >
-              Check-In Here
-            </Checkbox>
-            <Divider />
-            <h3>Buddies Checked-In</h3>
-            {isEmpty(checkedBuddies)? <Text>No buddies at this Gym!</Text> :
-              <List
-                dataSource={checkedBuddies}
-                renderItem={buddy => (
-                  <List.Item style={{ padding: '1vh' }}>
-                    <List.Item.Meta
-                      style={{ alignItems: 'center' }}
-                      title={`${buddy.first_name} ${buddy.last_name}`}
-                      avatar={<Avatar style={{ color: '#0d5fe5', backgroundColor: '#b3cbf2', marginRight: '5px' }}>
-                        {buddy.first_name[0]}
-                        {buddy.last_name[0]}
-                      </Avatar>}
-                      description={<Badge
-                        status={buddy.status === "offline" ? "default" : "success"}
-                        text={buddy.status}
-                      />}
-                    />
-                  </List.Item>
-                )}
-              />
-            }
-            <Divider />
-            <h3>All Checked-In</h3>
-            {isEmpty(checkedUsers)? <Text>No other users at this Gym!</Text> :
-              <List
-                dataSource={checkedUsers}
-                renderItem={user => (
-                  <List.Item style={{ padding: '1vh' }}>
-                    <List.Item.Meta
-                      style={{ alignItems: 'center' }}
-                      title={`${user.first_name} ${user.last_name}`}
-                      avatar={
-                        <Popconfirm
-                          title={`Add ${user.first_name} ${user.last_name} to buddies?`}
-                          onConfirm={() => this.sendRequest(user)}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <Avatar style={{ color: '#306644', backgroundColor: '#71c490' }}>
-                            <Icon type="user-add" />
-                          </Avatar>
-                        </Popconfirm>
-                      }
-                      description={<Badge
-                        status={user.status === "offline" ? "default" : "success"}
-                        text={user.status}
-                      />}
-                    />
-                  </List.Item>
-                )}
-              />
-            }
-          </Drawer>
-          {showMap ? 
-            <MyMapComponent 
-              selectedMarker={selectedMarker} 
-              latitude={latitude} 
-              longitude={longitude}
-              onClick={this.handleClick}
-              onCheckinClick={this.handleOnCheckinClick}
-            /> 
-            :
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <Button 
-                onClick={this.getPosition} 
-                type="primary" 
-                shape="round" 
-                icon="global"
-                size="large"
-                >Show Gyms Near Me</Button>
-            </div>
-          }
+            Check-In Here
+          </Checkbox>
+          <Divider />
+          <h3>Buddies Checked-In</h3>
+          <List
+            bordered
+            dataSource={checkedBuddies}
+            renderItem={user => (
+              <List.Item>
+                {user.first_name}
+              </List.Item>
+            )}
+          />
+          {allUsers.map}
+          <Divider />
+          <h3>All Checked-In</h3>
+        </Drawer>
+        {showMap ? 
+          <MyMapComponent 
+            selectedMarker={selectedMarker} 
+            latitude={latitude} 
+            longitude={longitude}
+            onClick={this.handleClick}
+            onCheckinClick={this.handleOnCheckinClick}
+          /> 
+          :
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button 
+              onClick={this.getPosition} 
+              type="primary" 
+              shape="round" 
+              icon="global"
+              size="large"
+              >Show Gyms Near Me</Button>
+          </div>
+        }
         </Content>
       </Layout>
     )
@@ -345,9 +258,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchingUsers: () => { dispatch(fetchingUsers()) },
-    patchUserCheckin: (user) => { dispatch(patchUserCheckin(user)) },
-    sendBuddyRequest: (user, currentUser) => { dispatch(sendBuddyRequest(user, currentUser)) },
-    updateUserBuddies: (buddy) => { dispatch(updateUserBuddies(buddy)) }
+    patchUserCheckin: (user) => { dispatch(patchUserCheckin(user)) }
   }
 }
 

@@ -90,7 +90,7 @@ class GymBuddy extends Component {
             </Switch>
           </Layout>
         }
-        <Footer style={{ textAlign: 'center', padding: 0, background: '#021428', color: '#f2f2f3a6' }}>
+        <Footer style={{ textAlign: 'center', height: 10, background: '#fff', opacity: .65 }}>
           Gym Buddies ©2019 Created by The Boss
         </Footer>
       </Layout>
