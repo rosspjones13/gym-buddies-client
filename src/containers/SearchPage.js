@@ -17,10 +17,11 @@ class SearchPage extends Component {
   }
 
   render() {
+    // let { currentBuddy, currentUser, allUsers } = this.props
     return (
       <Layout style={{ background: "#fff" }}>
         <Content style={{ alignSelf: 'center', textAlign: 'center' }}>
-          <Title level={4}>Find a Workout Buddy</Title>
+          <Title level={4} style={{ marginTop: '2vh' }}>Find a Workout Buddy</Title>
           {/* <Requests /> */}
           <SearchBar />
         </Content>
