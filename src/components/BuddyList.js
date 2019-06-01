@@ -76,7 +76,7 @@ class BuddyList extends Component {
       <Sider style={{ background: "#fff" }}>
         <List
           bordered
-          style={{ height: "89vh", overflow: "auto", alignItems: 'center' }}
+          style={{ marginRight: '1vw', height: "86vh", overflow: "auto", alignItems: 'center' }}
         >
           {sortedBuddies.map(buddy => (
             <Fragment key={buddy.buddy.id}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { postNewMessage } from '../redux/actions/messages'
-import { Layout, Input } from 'antd'
+import { Layout, Input, Row, Col } from 'antd'
 
 const { Footer } = Layout
 const Search = Input.Search
@@ -27,18 +27,20 @@ class NewMessageForm extends Component {
   render() {
     return (
       <Footer 
-        style={{
-          background: "#fff", padding: '0px 0px 6vh' }}
+        style={{ background: "#fff", textAlign: 'center', paddingLeft: 0, paddingRight: 0 }}
       >
-        <Search 
-          style={{ verticalAlign: 0 }}
-          className="new-message" 
-          placeholder="Start typing..."
-          enterButton="Send"
-          value={this.state.message}
-          onChange={(e) => this.setState({message: e.target.value})}
-          onSearch={() => this.handleSubmit()}
-        />
+        <Row>
+          <Col span={20} offset={2}>
+            <Search 
+              className="new-message" 
+              placeholder="Start typing..."
+              enterButton="Send"
+              value={this.state.message}
+              onChange={(e) => this.setState({message: e.target.value})}
+              onSearch={() => this.handleSubmit()}
+            />
+          </Col>
+        </Row>
       </Footer>
     )
   }
