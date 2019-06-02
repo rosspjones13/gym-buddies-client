@@ -13,6 +13,7 @@
 
 # hidden
 /src/constants/API.js
+/src/components/StatusCable.js
 
 # misc
 .DS_Store

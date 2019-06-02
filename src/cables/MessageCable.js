@@ -4,7 +4,6 @@ import { ActionCableConsumer } from 'react-actioncable-provider'
 import { isEmpty } from 'lodash'
 import { receiveBuddyMessages } from '../redux/actions/messages'
 import { currentUserOnline } from '../redux/actions/currentUser'
-import { currentUserOffline } from '../redux/actions/loginUser'
 
 class MessageCable extends Component {
   // handleConnected = () => {
@@ -41,7 +40,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     currentUserOnline: (user) => { dispatch(currentUserOnline(user)) },
-    currentUserOffline: (user) => { dispatch(currentUserOffline(user)) },
     receiveBuddyMessages: (buddy_id, message) => { dispatch(receiveBuddyMessages(buddy_id, message)) }
   }
 }
