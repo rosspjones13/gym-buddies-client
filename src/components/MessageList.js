@@ -42,7 +42,7 @@ class MessageList extends Component {
             ref={(el) => { this.messagesEnd = el; }}>
           </div>
         </Fragment>
-        }
+        } 
       </Content>
     )
   }
