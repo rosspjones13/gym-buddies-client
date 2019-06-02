@@ -9,9 +9,8 @@ import GymPage from './GymPage'
 import UserNav from '../components/UserNav'
 import { connect } from 'react-redux'
 import { fetchingLoggedUser } from '../redux/actions/loginUser'
-import { currentUserOnline, currentUserOffline } from '../redux/actions/currentUser'
+import { currentUserOnline } from '../redux/actions/currentUser'
 import { receiveBuddyMessages } from '../redux/actions/messages'
-import { ActionCableConsumer } from 'react-actioncable-provider';
 import { withRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { isEmpty } from 'lodash'
 import { Layout, Spin } from 'antd'
@@ -22,18 +21,6 @@ class GymBuddy extends Component {
   componentDidMount(){
     this.props.fetchingLoggedUser()
   }
-
-  // handleConnected = () => {
-  //   const { currentUser, currentUserOnline } = this.props
-  //   currentUser.status = "online"
-  //   currentUserOnline(currentUser)
-  // }
-
-  handleReceivedMessage = newMessage => {
-    const { receiveBuddyMessages, userBuddies } = this.props
-    let recieveMessage = userBuddies.find(buddy => buddy.buddy.id === newMessage.buddy_id)
-    receiveBuddyMessages(recieveMessage.buddy.id, newMessage)
-  };
 
   render() {
     const { currentUser, loading } = this.props
