@@ -1,6 +1,8 @@
 # Gym Buddies
 ## React Client
 
+This app was built on the ReactJS framework, you can learn more about React [https://reactjs.org/docs/getting-started.html#try-react](here).
+
 ## Description
 
 Gives gym goers a place to track their workouts, check-in to a local gym, and find a gym buddy and connect with them through live messaging.
