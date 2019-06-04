@@ -1,7 +1,7 @@
 # Gym Buddies
 ## React Client
 
-This app was built on the ReactJS framework, you can learn more about React [https://reactjs.org/docs/getting-started.html#try-react](here).
+This app was built on the ReactJS framework, you can learn more about React [here](https://reactjs.org/docs/getting-started.html#try-react).
 
 ## Description
 
