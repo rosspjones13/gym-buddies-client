@@ -98,9 +98,9 @@ class BuddyList extends Component {
                     text={showBuddy(buddy).status}
                   />}
                 />
-                  <Icon type="calendar" style={{ fontSize: 18, marginRight: '1vw' }} />
+                  {/* <Icon type="calendar" style={{ fontSize: 18, marginRight: '1vw' }} /> */}
                   <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
-                    <Icon type="more" style={{ fontSize: 18 }} />
+                    <Icon type="more" style={{ fontSize: 18, marginRight: '1vw' }} />
                   </Dropdown>
               </List.Item>
             </Fragment>

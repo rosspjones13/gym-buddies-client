@@ -22,7 +22,7 @@ class Login extends Component {
       if (!err) {
         this.props.fetchingLoginUser(this.state.username, this.state.password)
       }
-    });
+    })
   }
 
   render() {

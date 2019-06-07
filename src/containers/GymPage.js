@@ -60,7 +60,7 @@ const MyMapComponent = compose(
     onTilesLoaded={props.fetchPlaces}
     ref={props.onMapMounted}
     onBoundsChanged={props.fetchPlaces}
-    defaultZoom={12}
+    defaultZoom={14}
     defaultCenter={{ lat: props.latitude, lng: props.longitude }}
   >
     <Marker
