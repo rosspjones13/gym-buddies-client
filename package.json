@@ -2,6 +2,10 @@
   "name": "gym-buddies-react",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+     "npm": "6.9.0",
+     "node": "11.5.0"
+  },
   "dependencies": {
     "action-cable-react-jwt": "0.0.5",
     "antd": "^3.19.1",
