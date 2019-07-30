@@ -1,4 +1,4 @@
-import { apiUrl } from '../../constants/fetchUrls'
+import { apiUrl } from '../../constants/keys'
 
 export function postNewMessage(newMessage) {
   return (dispatch) => {
