@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { postNewWorkout, updateUserWorkouts } from '../redux/actions/workouts'
-import { Calendar, Row, Col, Badge, Popover, Modal, Icon, Radio, Select, TimePicker, InputNumber, Typography, Drawer, Divider } from 'antd'
+import { Calendar, Row, Col, Badge, Popover, Modal, Radio, Select, TimePicker, InputNumber, Typography, Drawer, Divider } from 'antd'
+import { PlusCircleOutlined } from '@ant-design/icons';
 import { isEmpty } from 'lodash'
 import moment from 'moment'
 import DayExerciseList from './DayExerciseList';
@@ -297,7 +298,7 @@ class WorkoutCalendar extends Component {
             )}
           </ul>
           <Divider />
-          <Icon type="plus-circle" onClick={this.onAddWorkoutClick} /> Add a workout
+          <PlusCircleOutlined onClick={this.onAddWorkoutClick} /> Add a workout
         </Drawer>
         <Calendar
           value={selectedDay}

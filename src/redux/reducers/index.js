@@ -1,11 +1,16 @@
 import { combineReducers } from 'redux'
 import { loadingReducer } from './loading'
-import { menuCollapseReducer } from './menuCollapse'
 import { currentUserReducer, currentBuddyReducer, userBuddiesReducer,  userWorkoutsReducer } from './currentUser'
 import { usersReducer } from './allUsers'
 import { allExercisesReducer } from './exercisesReducer';
+// import { connectRouter } from 'connected-react-router'
+import { createRouterReducer } from '@lagunovsky/redux-react-router'
+import { createBrowserHistory } from 'history'
 
-const rootReducer = combineReducers({
+export const browserHistory = createBrowserHistory()
+
+const createRootReducer = combineReducers({
+  router: createRouterReducer(browserHistory),
   allUsers: usersReducer,
   loading: loadingReducer,
   currentUser: currentUserReducer,
@@ -13,8 +18,7 @@ const rootReducer = combineReducers({
   userWorkouts: userWorkoutsReducer,
   userBuddies: userBuddiesReducer,
   currentBuddy: currentBuddyReducer,
-  menuCollapse: menuCollapseReducer,
   allExercises: allExercisesReducer,
 })
 
-export default rootReducer
+export default createRootReducer

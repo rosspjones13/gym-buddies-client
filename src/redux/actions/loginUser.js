@@ -1,4 +1,5 @@
 import { apiUrl } from '../../constants/keys'
+// import { push } from 'connected-react-router'
 
 export function currentUser(user) {
   return { type: "FETCHED_LOGGED_USER", user }
@@ -48,6 +49,7 @@ export function fetchingLoginUser(username, password) {
           dispatch(fetchedLoginUser(data.user))
           localStorage.setItem('token', data.token)
           document.cookie = `token=${data.token}`
+          // dispatch(push('/profile'))
         } else {
           alert('Incorrect username or password')
         }
@@ -69,6 +71,7 @@ export function fetchingLoggedUser() {
         .then(user => {
           document.cookie = `token=${token}`
           dispatch(currentUser(user))
+          // dispatch(push('/profile'))
         })
     }
   }

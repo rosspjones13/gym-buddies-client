@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { currentUserOffline } from '../redux/actions/loginUser'
 import { isEmpty } from 'lodash'
-import { Button, Icon, Typography, Layout } from 'antd';
+import { Button, Typography, Layout } from 'antd';
+import { LogoutOutlined } from '@ant-design/icons';
 
 const { Header } = Layout
 const { Text } = Typography
@@ -44,10 +45,7 @@ class NavBar extends Component {
                 <Text style={{ color: 'white' }}>
                   Logout
                 </Text>
-                <Icon
-                  type="logout" 
-                  style={{ color: '#0085fd', fontSize: 14 }} 
-                  />
+                <LogoutOutlined style={{ color: '#0085fd', fontSize: 14 }} />
               </Button>
             </div>
           }

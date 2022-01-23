@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { currentBuddyMessages } from '../redux/actions/currentUser'
 import { deleteBuddy, updateBuddyStatus } from '../redux/actions/buddies'
-import { Layout, List, Avatar, Badge, Icon, Dropdown, Menu } from 'antd'
+import { Layout, List, Avatar, Badge, Dropdown, Menu } from 'antd'
+import { StopTwoTone, DeleteTwoTone, MoreOutlined } from '@ant-design/icons';
 
 const { Sider } = Layout
 
@@ -14,9 +15,9 @@ class BuddyList extends Component {
     }
     this.menu = (
     <Menu onClick={this.handleMenuSelect}>
-      <Menu.Item key="1"><Icon type="delete" theme="twoTone" />Remove Buddy</Menu.Item>
+      <Menu.Item key="1"><DeleteTwoTone />Remove Buddy</Menu.Item>
       <Menu.Item key="2">
-        <Icon type="stop" theme="twoTone"twoToneColor="#ea0404"/>Block Buddy
+        <StopTwoTone twoToneColor="#ea0404"/>Block Buddy
       </Menu.Item>
     </Menu>
     )
@@ -100,7 +101,7 @@ class BuddyList extends Component {
                 />
                   {/* <Icon type="calendar" style={{ fontSize: 18, marginRight: '1vw' }} /> */}
                   <Dropdown trigger={['click']} overlay={menu} onClick={() => this.handleMenuClick(buddy)}>
-                    <Icon type="more" style={{ fontSize: 18, marginRight: '1vw' }} />
+                    <MoreOutlined style={{ fontSize: 18, marginRight: '1vw' }} />
                   </Dropdown>
               </List.Item>
             </Fragment>

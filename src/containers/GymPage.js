@@ -5,7 +5,8 @@ import { mapsKey } from '../constants/keys'
 import { fetchingUsers } from '../redux/actions/allUsers'
 import { patchUserCheckin } from '../redux/actions/currentUser'
 import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
-import { Layout, Button, Drawer, Checkbox, Divider, List, Badge, Avatar, Icon, message, Popconfirm, Typography } from 'antd'
+import { Layout, Button, Drawer, Checkbox, Divider, List, Badge, Avatar, message, Popconfirm, Typography } from 'antd'
+import { UserAddOutlined, GlobalOutlined } from '@ant-design/icons';
 import { compose, withProps, withHandlers, withState, withStateHandlers } from "recompose"
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from "react-google-maps"
 import { isEmpty } from 'lodash'
@@ -294,7 +295,7 @@ class GymPage extends Component {
                           cancelText="No"
                         >
                           <Avatar style={{ color: '#306644', backgroundColor: '#71c490' }}>
-                            <Icon type="user-add" />
+                            <UserAddOutlined />
                           </Avatar>
                         </Popconfirm>
                       }
@@ -322,7 +323,7 @@ class GymPage extends Component {
                 onClick={this.getPosition} 
                 type="primary" 
                 shape="round" 
-                icon="global"
+                icon={<GlobalOutlined />}
                 size="large"
                 >Show Gyms Near Me</Button>
             </div>

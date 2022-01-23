@@ -3,27 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-     "npm": "6.9.0",
-     "node": "11.5.0"
+    "node": "16.13.2",
+    "npm": "8.1.2"
   },
   "dependencies": {
+    "@lagunovsky/redux-react-router": "^2.2.0",
     "action-cable-react-jwt": "0.0.5",
-    "antd": "^3.19.1",
-    "moment": "^2.24.0",
-    "node-sass": "^4.12.0",
-    "react": "^16.8.6",
+    "antd": "^4.18.4",
+    "moment": "^2.29.1",
+    "node-sass": "^7.0.1",
+    "react": "^16.14.0",
     "react-actioncable-provider": "^2.0.0",
-    "react-dom": "^16.8.6",
+    "react-dom": "^16.14.0",
     "react-google-maps": "^9.4.5",
-    "react-redux": "^6.0.1",
-    "react-router-dom": "^5.0.0",
-    "react-scripts": "2.1.8",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
+    "react-redux": "^7.2.6",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "^5.0.0",
+    "redux": "^4.1.2",
+    "redux-thunk": "^2.4.1",
     "zipcodes-nearby": "^0.1.4"
   },
   "scripts": {
-    "start": "PORT=3001 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -38,6 +39,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "antd-theme-webpack-plugin": "^1.2.0"
+    "antd-theme-webpack-plugin": "^1.2.0",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-normalize": "^10.0.1",
+    "postcss-preset-env": "^7.2.3"
   }
 }

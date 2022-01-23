@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { sendBuddyRequest, updateUserBuddies } from '../redux/actions/buddies'
 import { isEmpty } from 'lodash'
-import { Icon, Input, Radio, Typography, Card, Avatar, Badge, Popconfirm, message } from 'antd'
+import { Input, Radio, Typography, Card, Avatar, Badge, Popconfirm, message } from 'antd'
+import { SearchOutlined, UserAddOutlined } from '@ant-design/icons';
 
 const { Meta } = Card
 const { Title } = Typography
@@ -121,7 +122,7 @@ class SearchBar extends Component {
             onSearch={this.handleSearch}
             enterButton="Find" 
             size="large"
-            suffix={<Icon type="search"/>}
+            suffix={<SearchOutlined />}
           />
         }
         {noResults ? <Title level={4} style={{ color: 'red' }}>No results or new buddies found!</Title> : null}
@@ -143,7 +144,7 @@ class SearchBar extends Component {
                       cancelText="No"
                     >
                       <Avatar style={{ color: '#306644', backgroundColor: '#71c490' }}>
-                        <Icon type="user-add"/>
+                        <UserAddOutlined />
                       </Avatar>
                     </Popconfirm>
                   }
