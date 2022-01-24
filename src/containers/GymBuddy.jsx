@@ -82,6 +82,18 @@ const GymBuddy = () => {
   )
 }
 
+// "husky": {
+//   "hooks": {
+//     "pre-commit": "npx lint-staged"
+//   }
+// },
+// "lint-staged": {
+//   "src/**/*.{js,jsx,json,css,md}": [
+//     "prettier --write",
+//     "eslint --fix-dry-run"
+//   ]
+// }
+
 // const mapStateToProps = state => {
 //   return {
 //     currentUser: state.currentUser,
