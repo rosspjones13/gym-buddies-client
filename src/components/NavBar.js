@@ -1,70 +1,70 @@
-import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
+import React, { Fragment } from 'react'
 import { currentUserOffline } from '../redux/actions/loginUser'
+import { useSelector, useDispatch } from 'react-redux'
 import { isEmpty } from 'lodash'
 import { Button, Typography, Layout } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 const { Header } = Layout
 const { Text } = Typography
 
-class NavBar extends Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
-  }
+const NavBar = () => {
+  const dispatch = useDispatch();
+  
+  const currentUser = useSelector((state) => state.currentUser)
 
-  handleLogout = () => {
-    const { currentUser, currentUserOffline} = this.props
+  let navigate = useNavigate();
+
+  const handleLogout = async () => {
     localStorage.clear()
-    currentUser.status = "offline"
-    currentUserOffline(currentUser)
+    // currentUser.status = "offline"
+    await dispatch(currentUserOffline(currentUser))
+    navigate('/login')
   }
 
-  render() {
-    const { currentUser } = this.props
-    return (
-      <Header 
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10vw' }}
+  return (
+    <Header 
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10vw' }}
+    >
+      <Text
+        style={{ color: 'white', fontSize: '2.5em', margin: 0 }}
       >
-        <Text
-          style={{ color: 'white', fontSize: '2.5em', margin: 0 }}
-        >
-          Gym Buddies
-        </Text>
-        <Fragment>
-          {isEmpty(currentUser) ? 
-            <Text style={{ color: 'white', fontSize: '1.25em', whiteSpace: 'nowrap' }}>
-              Find a local gym buddy and reach your goals together!
+        Gym Buddies
+      </Text>
+      <Fragment>
+        {isEmpty(currentUser) ? 
+          <Text style={{ color: 'white', fontSize: '1.25em', whiteSpace: 'nowrap' }}>
+            Find a local gym buddy and reach your goals together!
+          </Text>
+          :
+          <div>
+            <Text style={{ color: 'white', fontSize: '1.25em', marginRight: '1vw' }}>
+              Hi, {currentUser.first_name}!
             </Text>
-            :
-            <div>
-              <Text style={{ color: 'white', fontSize: '1.25em', marginRight: '1vw' }}>
-                Hi, {currentUser.first_name}!
+            <Button onClick={handleLogout} type="primary" ghost>
+              <Text style={{ color: 'white' }}>
+                Logout
               </Text>
-              <Button onClick={this.handleLogout} type="primary" ghost>
-                <Text style={{ color: 'white' }}>
-                  Logout
-                </Text>
-                <LogoutOutlined style={{ color: '#0085fd', fontSize: 14 }} />
-              </Button>
-            </div>
-          }
-        </Fragment>
-      </Header>
-    )
-  }
+              <LogoutOutlined style={{ color: '#0085fd', fontSize: 14 }} />
+            </Button>
+          </div>
+        }
+      </Fragment>
+    </Header>
+  )
 }
 
-const mapStateToProps = state => {
-  return {
-    currentUser: state.currentUser,
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     currentUser: state.currentUser,
+//   }
+// }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    currentUserOffline: (user) => { dispatch(currentUserOffline(user)) }
-  }
-}
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     currentUserOffline: (user) => { dispatch(currentUserOffline(user)) }
+//   }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar)
+export default NavBar

@@ -44,11 +44,11 @@ const GymBuddy = () => {
       <Layout style={{ background: '#fff' }}>
         <Routes>
           <Route element={<AuthedRoute />}>
-            <Route
+            {/* <Route
               exact
               path="/"
               element={<Navigate to="/profile"/>}
-            />
+            /> */}
             <Route 
               exact 
               path="/profile" 
@@ -76,7 +76,7 @@ const GymBuddy = () => {
       </Layout>
       }
       <Footer style={{ textAlign: 'center', padding: 0, background: '#021428', color: '#f2f2f3a6' }}>
-        Gym Buddies ©2019 Created by The Boss
+        Gym Buddies ©
       </Footer>
     </Layout>
   )

@@ -8,6 +8,8 @@ export const loadingReducer = (state = false, action) => {
       return false
     case "FETCHED_USER_BUDDIES":
       return false
+    case "ERROR_LOADING":
+      return false
     default:
       return state
   }

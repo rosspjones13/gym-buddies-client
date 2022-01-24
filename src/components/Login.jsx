@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Form, Input, Button, Layout, Typography, Row, Col } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux'
-import { fetchingLoginUser } from '../redux/actions/loginUser'
+import { fetchingLoginUser, fetchedLoginUser } from '../redux/actions/loginUser'
 import { useNavigate } from "react-router-dom";
 import '../styles/Login.css'
+import { errorFetching } from '../redux/actions/errors';
 
 const { Content } = Layout
 const { Title } = Typography
@@ -17,9 +18,26 @@ const Login = () => {
 
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    dispatch(fetchingLoginUser(username, password))
-    navigate('/profile')
+  const handleSubmit = async () => {
+    await dispatch(fetchingLoginUser(username, password))
+      .then((res) => {
+        if (res.data.authenticated) {
+          // dispatch(push('/profile'))
+          localStorage.setItem('token', res.data.token)
+          document.cookie = `token=${res.data.token}`
+          dispatch(fetchedLoginUser(res.data.user))
+        }
+        navigate('/profile')
+      })
+      .catch((err) => {
+        console.log(err)
+        if (err.response.status === 406) {
+          alert(err.response.data.message)
+        } else {
+          alert("Error Logging In ", err)
+        }
+        dispatch(errorFetching())
+      })
   }
 
   // const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;

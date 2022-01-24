@@ -1,5 +1,6 @@
 import { apiUrl } from '../../constants/keys'
-// import { push } from 'connected-react-router'
+import { push } from '@lagunovsky/redux-react-router'
+import axios from 'axios'
 
 export function currentUser(user) {
   return { type: "FETCHED_LOGGED_USER", user }
@@ -14,7 +15,7 @@ export function logoutUser() {
 }
 
 export function currentUserOffline(user) {
-  return (dispatch) => {
+  return async (dispatch) => {
     fetch(apiUrl + `users/${user.id}`, {
       method: "PATCH",
       headers: {
@@ -33,27 +34,23 @@ export function fetchedLoginUser(user) {
 }
 
 export function fetchingLoginUser(username, password) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(loadingUser())
-    fetch(apiUrl + 'login', {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({
+    return axios.post(apiUrl + 'login', JSON.stringify({
         username: username,
         password: password
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        if (data.authenticated) {
-          dispatch(fetchedLoginUser(data.user))
-          localStorage.setItem('token', data.token)
-          document.cookie = `token=${data.token}`
-          // dispatch(push('/profile'))
-        } else {
-          alert('Incorrect username or password')
-        }
-      })
+      }))
+      // .then((res) => {
+      //   if (res.data.authenticated) {
+      //     // dispatch(push('/profile'))
+      //     localStorage.setItem('token', res.data.token)
+      //     document.cookie = `token=${res.data.token}`
+      //     dispatch(fetchedLoginUser(res.data.user))
+      //   }
+      // })
+      // .catch(
+      //   alert('Incorrect username or password')
+      // )
   }
 }
 
