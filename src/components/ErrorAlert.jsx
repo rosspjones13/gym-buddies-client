@@ -1,24 +1,22 @@
-import React, { Fragment } from 'react'
-import { useSelector } from 'react-redux'
-import { Alert } from 'antd';
+import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
+import { Alert } from "antd";
 
 const ErrorAlert = () => {
-  const showAlert = useSelector((state) => state.showAlert)
+  const showAlert = useSelector((state) => state.showAlert);
 
   return (
     <Fragment>
-      {showAlert ? 
+      {showAlert ? (
         <Alert
           message="Error"
           description="This is an error message about copywriting."
           type="error"
           showIcon
         />
-        :
-        null
-      }
+      ) : null}
     </Fragment>
-  )
-}
+  );
+};
 
-export default ErrorAlert
+export default ErrorAlert;

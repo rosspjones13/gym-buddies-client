@@ -1,7 +1,7 @@
 export function errorFetching() {
-  return { type: "ERROR_LOADING" }
+  return { type: "ERROR_LOADING" };
 }
 
 export function clearError() {
-  return { type: "CLEAR_ERROR" }
+  return { type: "CLEAR_ERROR" };
 }

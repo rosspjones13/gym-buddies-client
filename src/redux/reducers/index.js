@@ -1,13 +1,18 @@
-import { combineReducers } from 'redux'
-import { loadingReducer } from './loading'
-import { currentUserReducer, currentBuddyReducer, userBuddiesReducer,  userWorkoutsReducer } from './currentUser'
-import { usersReducer } from './allUsers'
-import { allExercisesReducer } from './exercisesReducer';
+import { combineReducers } from "redux";
+import { loadingReducer } from "./loading";
+import {
+  currentUserReducer,
+  currentBuddyReducer,
+  userBuddiesReducer,
+  userWorkoutsReducer,
+} from "./currentUser";
+import { usersReducer } from "./allUsers";
+import { allExercisesReducer } from "./exercisesReducer";
 // import { connectRouter } from 'connected-react-router'
-import { createRouterReducer } from '@lagunovsky/redux-react-router'
-import { createBrowserHistory } from 'history'
+import { createRouterReducer } from "@lagunovsky/redux-react-router";
+import { createBrowserHistory } from "history";
 
-export const browserHistory = createBrowserHistory()
+export const browserHistory = createBrowserHistory();
 
 const createRootReducer = combineReducers({
   router: createRouterReducer(browserHistory),
@@ -19,6 +24,6 @@ const createRootReducer = combineReducers({
   userBuddies: userBuddiesReducer,
   currentBuddy: currentBuddyReducer,
   allExercises: allExercisesReducer,
-})
+});
 
-export default createRootReducer
+export default createRootReducer;

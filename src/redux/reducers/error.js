@@ -1,10 +1,10 @@
 export const errorReducer = (state = false, action) => {
   switch (action.type) {
     case "CLEAR_ERROR":
-      return false
+      return false;
     case "ERROR_LOADING":
-      return true
+      return true;
     default:
-      return state
+      return state;
   }
-}
+};

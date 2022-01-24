@@ -1,61 +1,70 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { postNewMessage } from '../redux/actions/messages'
-import { Layout, Input } from 'antd'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { postNewMessage } from "../redux/actions/messages";
+import { Layout, Input } from "antd";
 
-const { Footer } = Layout
-const Search = Input.Search
+const { Footer } = Layout;
+const Search = Input.Search;
 
 class NewMessageForm extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
-      message: ""
-    }
+      message: "",
+    };
   }
 
   handleSubmit = () => {
-    const { message } = this.state
-    const { currentBuddy, postNewMessage, currentUser } = this.props
-    const newMessage = { buddy_id: currentBuddy.buddy.id, user_id: currentUser.id, content: message, read: false }
+    const { message } = this.state;
+    const { currentBuddy, postNewMessage, currentUser } = this.props;
+    const newMessage = {
+      buddy_id: currentBuddy.buddy.id,
+      user_id: currentUser.id,
+      content: message,
+      read: false,
+    };
     this.setState({
-      message: ""
-    })
-    postNewMessage(newMessage)
-  }
+      message: "",
+    });
+    postNewMessage(newMessage);
+  };
 
   render() {
     return (
-      <Footer 
+      <Footer
         style={{
-          background: "#fff", padding: '0px 0px 6vh' }}
+          background: "#fff",
+          padding: "0px 0px 6vh",
+        }}
       >
-        <Search 
+        <Search
           style={{ verticalAlign: 0 }}
-          className="new-message" 
+          className="new-message"
           placeholder="Start typing..."
           enterButton="Send"
           value={this.state.message}
-          onChange={(e) => this.setState({message: e.target.value})}
+          onChange={(e) => this.setState({ message: e.target.value })}
           onSearch={() => this.handleSubmit()}
         />
       </Footer>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser,
     userSubscription: state.userSubscription,
-    currentBuddy: state.currentBuddy
-  }
-}
+    currentBuddy: state.currentBuddy,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    postNewMessage: (newMessage) => { dispatch(postNewMessage(newMessage)) }
-  }
-}
+    postNewMessage: (newMessage) => {
+      dispatch(postNewMessage(newMessage));
+    },
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewMessageForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewMessageForm);

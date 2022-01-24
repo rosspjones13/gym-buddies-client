@@ -1,42 +1,42 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import BuddyList from '../components/BuddyList'
-import MessageList from '../components/MessageList'
-import NewMessageForm from '../components/NewMessageForm'
-import { isEmpty } from 'lodash'
-import { Layout } from 'antd'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import BuddyList from "../components/BuddyList";
+import MessageList from "../components/MessageList";
+import NewMessageForm from "../components/NewMessageForm";
+import { isEmpty } from "lodash";
+import { Layout } from "antd";
 
-const { Content } = Layout
+const { Content } = Layout;
 
 class MessagePage extends Component {
   render() {
-    const { currentBuddy } = this.props
+    const { currentBuddy } = this.props;
     return (
       <Layout style={{ background: "#fff" }}>
-        {isEmpty(currentBuddy) ? <Content></Content> :
-        <Layout style={{ background: "#fff" }}>
-          <MessageList />
-          <NewMessageForm />
-        </Layout>
-      }
+        {isEmpty(currentBuddy) ? (
+          <Content></Content>
+        ) : (
+          <Layout style={{ background: "#fff" }}>
+            <MessageList />
+            <NewMessageForm />
+          </Layout>
+        )}
         <BuddyList />
       </Layout>
-    )
+    );
   }
 }
 
-
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser,
     userBuddies: state.userBuddies,
-    currentBuddy: state.currentBuddy
-  }
-}
+    currentBuddy: state.currentBuddy,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-  return {
-  }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(MessagePage)
+export default connect(mapStateToProps, mapDispatchToProps)(MessagePage);

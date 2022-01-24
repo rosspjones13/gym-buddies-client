@@ -1,18 +1,21 @@
-import React, { useState } from 'react'
-import { Form, Input, Button, Layout, Typography, Row, Col } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux'
-import { fetchingLoginUser, fetchedLoginUser } from '../redux/actions/loginUser'
+import React, { useState } from "react";
+import { Form, Input, Button, Layout, Typography, Row, Col } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import {
+  fetchingLoginUser,
+  fetchedLoginUser,
+} from "../redux/actions/loginUser";
 import { useNavigate } from "react-router-dom";
-import '../styles/Login.css'
-import { errorFetching } from '../redux/actions/errors';
+import "../styles/Login.css";
+import { errorFetching } from "../redux/actions/errors";
 
-const { Content } = Layout
-const { Title } = Typography
+const { Content } = Layout;
+const { Title } = Typography;
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   let navigate = useNavigate();
 
@@ -23,94 +26,104 @@ const Login = () => {
       .then((res) => {
         if (res.data.authenticated) {
           // dispatch(push('/profile'))
-          localStorage.setItem('token', res.data.token)
-          document.cookie = `token=${res.data.token}`
-          dispatch(fetchedLoginUser(res.data.user))
+          localStorage.setItem("token", res.data.token);
+          document.cookie = `token=${res.data.token}`;
+          dispatch(fetchedLoginUser(res.data.user));
         }
-        navigate('/profile')
+        navigate("/profile");
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
         if (err.response.status === 406) {
-          alert(err.response.data.message)
+          alert(err.response.data.message);
         } else {
-          alert("Error Logging In ", err)
+          alert("Error Logging In ", err);
         }
-        dispatch(errorFetching())
-      })
-  }
+        dispatch(errorFetching());
+      });
+  };
 
   // const { getFieldDecorator, getFieldError, isFieldTouched } = this.props.form;
   // const { getFieldError, isFieldTouched } = this.props.form;
   // const usernameError = isFieldTouched('username') && getFieldError('username');
-  // const passwordError = isFieldTouched('password') && getFieldError('password');    
+  // const passwordError = isFieldTouched('password') && getFieldError('password');
   return (
-    <Content 
-      className="login-layout"
-      style={{ height: '100%' }}    
-    >
-      <div className="login-background" 
+    <Content className="login-layout" style={{ height: "100%" }}>
+      <div
+        className="login-background"
         style={{
-          height: '100%',
-          position: 'relative',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          overflow: 'hidden'
+          height: "100%",
+          position: "relative",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          overflow: "hidden",
         }}
       >
-      <Row type="flex" justify="center">
-          <Col span={6} style={{ marginTop: '250px', 
-            marginBottom: '450px' }}>
-          <Title 
-            level={2} 
-              style={{ textAlign: 'center', color: 'white', marginBottom: '15px' }}
-          >
-            User Login
-          </Title>
-          <Form onFinish={ handleSubmit } id="loginForm">
-            <Form.Item
-              // validateStatus={ usernameError ? 'error' : '' }
-              // help={ usernameError || '' }
-              name='username'
-              rules={[{ required: true, message: 'Please input your username!' }]}
+        <Row type="flex" justify="center">
+          <Col span={6} style={{ marginTop: "250px", marginBottom: "450px" }}>
+            <Title
+              level={2}
+              style={{
+                textAlign: "center",
+                color: "white",
+                marginBottom: "15px",
+              }}
             >
-              <Input 
-                prefix={<UserOutlined />} 
-                placeholder="Username" 
-                onChange={ e => setUsername(e.target.value) }
-              />
-            </Form.Item>
-            <Form.Item
-              // validateStatus={passwordError ? 'error' : ''}
-              // help={passwordError || ''}
-              name='password'
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input 
-                prefix={<LockOutlined />} 
-                type="password" 
-                placeholder="Password" 
-                onChange={ e => setPassword(e.target.value) }
-              />
-            </Form.Item>
-            <Form.Item>
-              <Button form="loginForm" type="primary" htmlType="submit" className="login-button">
-                Log in
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
+              User Login
+            </Title>
+            <Form onFinish={handleSubmit} id="loginForm">
+              <Form.Item
+                // validateStatus={ usernameError ? 'error' : '' }
+                // help={ usernameError || '' }
+                name="username"
+                rules={[
+                  { required: true, message: "Please input your username!" },
+                ]}
+              >
+                <Input
+                  prefix={<UserOutlined />}
+                  placeholder="Username"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item
+                // validateStatus={passwordError ? 'error' : ''}
+                // help={passwordError || ''}
+                name="password"
+                rules={[
+                  { required: true, message: "Please input your password!" },
+                ]}
+              >
+                <Input
+                  prefix={<LockOutlined />}
+                  type="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  form="loginForm"
+                  type="primary"
+                  htmlType="submit"
+                  className="login-button"
+                >
+                  Log in
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
       </div>
     </Content>
-  )
-}
+  );
+};
 
 // const mapStateToProps = state => {
 //   return {
-    // users: state.users,
-    // currentUser: state.currentUser,
+// users: state.users,
+// currentUser: state.currentUser,
 //   }
 // }
 
@@ -123,4 +136,4 @@ const Login = () => {
 // const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
 
 // export default connect(mapStateToProps, mapDispatchToProps)(Login)
-export default Login
+export default Login;

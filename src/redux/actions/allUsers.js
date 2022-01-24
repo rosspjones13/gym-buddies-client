@@ -1,20 +1,20 @@
-import { apiUrl } from '../../constants/keys'
+import { apiUrl } from "../../constants/keys";
 
-export function fetchedUsers(users){
-  return { type: "FETCHED_ALL_USERS", users }
+export function fetchedUsers(users) {
+  return { type: "FETCHED_ALL_USERS", users };
 }
 
 export function loadingUsers() {
-  return { type: "LOADING_ALL_USERS" }
+  return { type: "LOADING_ALL_USERS" };
 }
 
 export function fetchingUsers() {
-  return ( dispatch ) => {
-    dispatch(loadingUsers())
-    fetch(apiUrl + 'users')
-    .then(res => res.json())
-    .then(users => {
-      dispatch(fetchedUsers(users))
-    })
-  }
+  return (dispatch) => {
+    dispatch(loadingUsers());
+    fetch(apiUrl + "users")
+      .then((res) => res.json())
+      .then((users) => {
+        dispatch(fetchedUsers(users));
+      });
+  };
 }

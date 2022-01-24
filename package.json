@@ -49,8 +49,13 @@
     "postcss-preset-env": "^7.2.3",
     "prettier": "^2.5.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged"
+    }
+  },
   "lint-staged": {
-    "src/**/*.{js,css,md}": [
+    "src/**/*.{js,md}": [
       "prettier --write",
       "eslint --fix-dry-run"
     ]

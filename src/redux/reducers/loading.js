@@ -1,27 +1,27 @@
 export const loadingReducer = (state = false, action) => {
   switch (action.type) {
     case "LOADING_USER":
-      return true
+      return true;
     case "FETCHED_LOGIN_USER":
-      return false
+      return false;
     case "FETCHED_LOGGED_USER":
-      return false
+      return false;
     case "FETCHED_USER_BUDDIES":
-      return false
+      return false;
     case "ERROR_LOADING":
-      return false
+      return false;
     default:
-      return state
+      return state;
   }
-}
+};
 
 export const loadingSearchReducer = (state = false, action) => {
   switch (action.type) {
     case "LOADING_ALL_USERS":
-      return true
+      return true;
     case "FETCHED_ALL_USERS":
-      return false
+      return false;
     default:
-      return state
+      return state;
   }
-}
+};

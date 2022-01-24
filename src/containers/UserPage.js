@@ -1,40 +1,39 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import WorkoutCalendar from '../components/WorkoutCalendar'
-import { Layout } from 'antd'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import WorkoutCalendar from "../components/WorkoutCalendar";
+import { Layout } from "antd";
 
-const { Content } = Layout
+const { Content } = Layout;
 
 class UserPage extends Component {
   formatDate = (date) => {
-    return new Date(date).toLocaleDateString()
-  }
+    return new Date(date).toLocaleDateString();
+  };
 
   capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  };
   render() {
     return (
-      <Layout style={{ background: '#fff' }}>
-        <Content style={{ textAlign: 'center' }}>
+      <Layout style={{ background: "#fff" }}>
+        <Content style={{ textAlign: "center" }}>
           <WorkoutCalendar />
         </Content>
       </Layout>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     currentUser: state.currentUser,
     userBuddies: state.userBuddies,
-    collapsed: state.menuCollapse
-  }
-}
+    collapsed: state.menuCollapse,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-  return {
-  }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
