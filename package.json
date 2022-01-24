@@ -50,7 +50,7 @@
     "prettier": "^2.5.1"
   },
   "lint-staged": {
-    "*.{js,css,md}": [
+    "src/**/*.{js,css,md}": [
       "prettier --write",
       "eslint --fix-dry-run"
     ]
