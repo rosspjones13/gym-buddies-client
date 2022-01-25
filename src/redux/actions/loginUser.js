@@ -1,5 +1,4 @@
 import { apiUrl } from "../../constants/keys";
-// import { push } from "@lagunovsky/redux-react-router";
 import axios from "axios";
 
 export function currentUser(user) {
@@ -16,6 +15,7 @@ export function logoutUser() {
 
 export function currentUserOffline(user) {
   return async (dispatch) => {
+    axios.put(apiUrl + `users/${user.id}`, JSON.stringify(user));
     // fetch(apiUrl + `users/${user.id}`, {
     //   method: "PATCH",
     //   headers: {
@@ -24,7 +24,6 @@ export function currentUserOffline(user) {
     //   },
     //   body: JSON.stringify(user),
     // })
-    axios.put(apiUrl + `users/${user.id}`, JSON.stringify(user));
   };
 }
 
@@ -56,24 +55,29 @@ export function fetchingLoginUser(username, password) {
   };
 }
 
-export function fetchingLoggedUser() {
-  let token = localStorage.getItem("token");
-  if (token) {
-    return (dispatch) => {
-      dispatch(loadingUser());
-      fetch(apiUrl + "profile", {
-        headers: {
-          Authentication: `Bearer ${token}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((user) => {
-          document.cookie = `token=${token}`;
-          dispatch(currentUser(user));
-          // dispatch(push('/profile'))
-        });
-    };
-  } else {
-    return (dispatch) => {};
-  }
+export function fetchingLoggedUser(token) {
+  // let token = localStorage.getItem("token");
+  // if (token) {
+  return async (dispatch) => {
+    dispatch(loadingUser());
+    // fetch(apiUrl + "profile", {
+    //   headers: {
+    //     Authentication: `Bearer ${token}`,
+    //   },
+    // })
+    // .then((res) => res.json())
+    return axios.get(apiUrl + "profile", {
+      headers: {
+        Authentication: `Bearer ${token}`,
+      },
+    });
+    // .then((res) => {
+    //   document.cookie = `token=${token}`;
+    //   dispatch(currentUser(res.data));
+    //     dispatch(push('/profile'))
+    // });
+  };
+  // } else {
+  //   return (dispatch) => {};
+  // }
 }

@@ -22,7 +22,7 @@ const NavBar = () => {
     currentUser.status = "offline"
     dispatch(clearError())
     await dispatch(currentUserOffline(currentUser))
-      .then((user) => {
+      .then((res) => {
         dispatch(logoutUser())
         navigate("/login");
       });

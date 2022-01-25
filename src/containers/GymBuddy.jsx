@@ -6,12 +6,11 @@ import MessagePage from "./MessagePage";
 import SearchPage from "./SearchPage";
 import GymPage from "./GymPage";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchingLoggedUser } from "../redux/actions/loginUser";
-import { Route, Routes } from "react-router-dom";
+import { fetchingLoggedUser, currentUser } from "../redux/actions/loginUser";
+import { Route, Routes, useNavigate } from "react-router-dom";
 // import { isEmpty } from 'lodash'
 import { Layout, Spin } from "antd";
 import AuthedRoute from "../components/Authentication/AuthedRoute";
-import ErrorAlert from "../components/ErrorAlert";
 
 const { Footer } = Layout;
 
@@ -19,11 +18,25 @@ const GymBuddy = () => {
   const dispatch = useDispatch();
   // const currentUser = useSelector((state) => state.currentUser)
   const loading = useSelector((state) => state.loading);
+  const currentUser = useSelector((state) => state.currentUser);
   // const userBuddies = useSelector((state) => state.userBuddies)
 
+  let navigate = useNavigate();
+
   useEffect(() => {
-    dispatch(fetchingLoggedUser());
-  }, [dispatch]);
+    let token = localStorage.getItem("token");
+    if (token && !currentUser) {
+      const fetchUser = async () => {
+        await dispatch(fetchingLoggedUser(token))
+        .then((res) => {
+          document.cookie = `token=${token}`;
+          dispatch(currentUser(res.data));
+          navigate('/profile')
+        });
+      }
+      fetchUser()
+    }
+  }, [dispatch, navigate, currentUser]);
 
   // handleConnected = () => {
   //   const { currentUser, currentUserOnline } = this.props
