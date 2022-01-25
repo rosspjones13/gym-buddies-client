@@ -1,18 +1,21 @@
 import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Alert } from "antd";
+import { clearError } from "../redux/actions/errors";
 
 const ErrorAlert = () => {
-  const showAlert = useSelector((state) => state.showAlert);
+  const { show, message } = useSelector((state) => state.error);
+  const dispatch = useDispatch();
 
   return (
     <Fragment>
-      {showAlert ? (
+      {show ? (
         <Alert
-          message="Error"
-          description="This is an error message about copywriting."
+          message={message}
           type="error"
-          showIcon
+          closable
+          banner
+          onClose={() => dispatch(clearError())}
         />
       ) : null}
     </Fragment>

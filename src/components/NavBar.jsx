@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
-import { currentUserOffline } from "../redux/actions/loginUser";
+import { currentUserOffline, logoutUser } from "../redux/actions/loginUser";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty } from "lodash";
 import { Button, Typography, Layout } from "antd";
 import { LogoutOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { clearError } from "../redux/actions/errors";
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -18,9 +19,13 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     localStorage.clear();
-    // currentUser.status = "offline"
-    await dispatch(currentUserOffline(currentUser));
-    navigate("/login");
+    currentUser.status = "offline"
+    dispatch(clearError())
+    await dispatch(currentUserOffline(currentUser))
+      .then((user) => {
+        dispatch(logoutUser())
+        navigate("/login");
+      });
   };
 
   return (
@@ -33,7 +38,7 @@ const NavBar = () => {
       }}
     >
       <Text style={{ color: "white", fontSize: "2.5em", margin: 0 }}>
-        Gym Buddies
+        My Gym Buddy
       </Text>
       <Fragment>
         {isEmpty(currentUser) ? (

@@ -8,6 +8,7 @@ import {
 } from "./currentUser";
 import { usersReducer } from "./allUsers";
 import { allExercisesReducer } from "./exercisesReducer";
+import { errorReducer } from "./errors";
 // import { connectRouter } from 'connected-react-router'
 import { createRouterReducer } from "@lagunovsky/redux-react-router";
 import { createBrowserHistory } from "history";
@@ -24,6 +25,7 @@ const createRootReducer = combineReducers({
   userBuddies: userBuddiesReducer,
   currentBuddy: currentBuddyReducer,
   allExercises: allExercisesReducer,
+  error: errorReducer,
 });
 
 export default createRootReducer;

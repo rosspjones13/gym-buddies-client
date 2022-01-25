@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Layout, Typography, Row, Col } from "antd";
+import { Form, Input, Button, Layout, Typography, Row, Col, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../redux/actions/loginUser";
 import { useNavigate } from "react-router-dom";
 import "../styles/Login.css";
-import { errorFetching } from "../redux/actions/errors";
+import { clearError, errorMessage } from "../redux/actions/errors";
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -22,6 +22,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async () => {
+    dispatch(clearError())
     await dispatch(fetchingLoginUser(username, password))
       .then((res) => {
         if (res.data.authenticated) {
@@ -35,11 +36,19 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
         if (err.response.status === 406) {
-          alert(err.response.data.message);
+          notification['error']({
+            message: err.response.data.message,
+            // description:
+            //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
+          });
+          dispatch(errorMessage(err.response.data.message));
         } else {
-          alert("Error Logging In ", err);
+          notification['error']({
+            message: "Error Logging In ",
+            // description: err
+          });
+          dispatch(errorMessage("Error Logging In "));
         }
-        dispatch(errorFetching());
       });
   };
 
@@ -120,20 +129,4 @@ const Login = () => {
   );
 };
 
-// const mapStateToProps = state => {
-//   return {
-// users: state.users,
-// currentUser: state.currentUser,
-//   }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     fetchingLoginUser: (username, password) => { dispatch(fetchingLoginUser(username, password)) }
-//   }
-// }
-
-// const WrappedLogin = Form.create({ name: 'normal_login' })(Login);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(Login)
 export default Login;

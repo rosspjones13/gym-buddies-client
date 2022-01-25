@@ -7,10 +7,11 @@ import SearchPage from "./SearchPage";
 import GymPage from "./GymPage";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchingLoggedUser } from "../redux/actions/loginUser";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 // import { isEmpty } from 'lodash'
 import { Layout, Spin } from "antd";
 import AuthedRoute from "../components/Authentication/AuthedRoute";
+import ErrorAlert from "../components/ErrorAlert";
 
 const { Footer } = Layout;
 
@@ -66,7 +67,7 @@ const GymBuddy = () => {
           color: "#f2f2f3a6",
         }}
       >
-        Gym Buddies ©
+        My Gym Buddy ©
       </Footer>
     </Layout>
   );

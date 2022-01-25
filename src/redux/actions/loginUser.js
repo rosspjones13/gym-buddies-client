@@ -16,16 +16,15 @@ export function logoutUser() {
 
 export function currentUserOffline(user) {
   return async (dispatch) => {
-    fetch(apiUrl + `users/${user.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => res.json())
-      .then((user) => dispatch(logoutUser()));
+    // fetch(apiUrl + `users/${user.id}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //   },
+    //   body: JSON.stringify(user),
+    // })
+    axios.put(apiUrl + `users/${user.id}`, JSON.stringify(user));
   };
 }
 

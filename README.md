@@ -1,4 +1,4 @@
-# Gym Buddies
+# Gym Buds
 
 ## React Client
 
@@ -16,7 +16,7 @@ Gives gym goers a place to track their workouts, check-in to a local gym, and fi
 
 ### Clone this repository and the server repository at:
 
-Gym Buddies Ruby on Rails Server: [https://github.com/rosspjones13/gym-buddies-server](https://github.com/rosspjones13/gym-buddies-server).<br>
+Gym Buds Ruby on Rails Server: [https://github.com/rosspjones13/gym-buddies-server](https://github.com/rosspjones13/gym-buddies-server).<br>
 Follow the steps to run the server.
 
 ### How to start the client:
