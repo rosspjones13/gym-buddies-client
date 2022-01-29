@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Layout, Typography, Row, Col, notification } from "antd";
+import { Form, Input, Button, Layout, Typography, Row, Col, notification, Card } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import {
@@ -11,7 +11,7 @@ import "../styles/Login.css";
 import { clearError, errorMessage } from "../redux/actions/errors";
 
 const { Content } = Layout;
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -58,8 +58,8 @@ const Login = () => {
   // const passwordError = isFieldTouched('password') && getFieldError('password');
   return (
     <Content className="login-layout" style={{ height: "100%" }}>
-      <div
-        className="login-background"
+      {/* <div
+        // className="login-background"
         style={{
           height: "100%",
           position: "relative",
@@ -68,63 +68,100 @@ const Login = () => {
           backgroundSize: "cover",
           overflow: "hidden",
         }}
-      >
-        <Row type="flex" justify="center">
-          <Col span={6} style={{ marginTop: "250px", marginBottom: "450px" }}>
+      > */}
+        <Row 
+          // type="flex"
+          justify="center"
+          align="middle"
+          style={{
+            height: "100%",
+            width: "100%",
+            background: "#ececec",
+          }}
+        >
+          <Col span={8} textAlign="left" style={{ padding: "20px" }}>
             <Title
-              level={2}
+              level={1}
               style={{
-                textAlign: "center",
-                color: "white",
-                marginBottom: "15px",
+                // textAlign: "center",
+                color: "#080058",
+                marginBottom: "40px",
               }}
             >
-              User Login
+              My Gym Buddy
             </Title>
-            <Form onFinish={handleSubmit} id="loginForm">
-              <Form.Item
-                // validateStatus={ usernameError ? 'error' : '' }
-                // help={ usernameError || '' }
-                name="username"
-                rules={[
-                  { required: true, message: "Please input your username!" },
-                ]}
-              >
-                <Input
-                  prefix={<UserOutlined />}
-                  placeholder="Username"
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item
-                // validateStatus={passwordError ? 'error' : ''}
-                // help={passwordError || ''}
-                name="password"
-                rules={[
-                  { required: true, message: "Please input your password!" },
-                ]}
-              >
-                <Input
-                  prefix={<LockOutlined />}
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  form="loginForm"
-                  type="primary"
-                  htmlType="submit"
-                  className="login-button"
+            <Text
+              style={{ 
+                color: "#000000", 
+                fontSize: "1.25em", 
+                // whiteSpace: "nowrap"
+              }}
+            >
+            Find a local gym buddy and reach your goals together!
+            </Text>
+          </Col>
+          <Col span={8}>
+            <Card style={{ 
+              width: "100%",
+              boxShadow: "0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%)",
+              borderRadius: "8px",
+              textAlign: "center"
+            }}>
+              <Form onFinish={handleSubmit} id="loginForm">
+                <Form.Item
+                  name="username"
+                  rules={[
+                    { required: true, message: "Please input your username!" },
+                  ]}
                 >
-                  Log in
-                </Button>
-              </Form.Item>
-            </Form>
+                  <Input
+                    prefix={<UserOutlined />}
+                    placeholder="Username"
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item
+                  name="password"
+                  rules={[
+                    { required: true, message: "Please input your password!" },
+                  ]}
+                >
+                  <Input
+                    prefix={<LockOutlined />}
+                    type="password"
+                    placeholder="Password"
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    form="loginForm"
+                    type="primary"
+                    htmlType="submit"
+                    className="login-button"
+                    style={{ 
+                      width: "100%",
+                      borderRadius: "8px"
+                    }}
+                  >
+                    Log In
+                  </Button>
+                </Form.Item>
+                <div style={{ "borderBottom": "1px solid #dadde1"}}></div>
+                <Button
+                    style={{ 
+                      width: "80%",
+                      borderRadius: "8px",
+                      marginTop: "24px"
+                    }}
+                  >
+                    Create new account
+                  </Button>
+              </Form>
+            </Card>
           </Col>
         </Row>
-      </div>
+      {/* </div> */}
     </Content>
   );
 };

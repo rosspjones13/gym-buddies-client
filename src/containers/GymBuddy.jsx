@@ -50,7 +50,7 @@ const GymBuddy = () => {
   //   receiveBuddyMessages(recieveMessage.buddy.id, newMessage)
   // };
   return (
-    <Layout style={{ height: "100vh" }}>
+    <Layout style={{ height: "100vh", fontFamily: '"Monsterrat", sans-serif' }}>
       <NavBar />
       {loading ? (
         <Spin size="large" style={{ marginTop: "200px", height: "100vh" }} />
@@ -76,8 +76,8 @@ const GymBuddy = () => {
         style={{
           textAlign: "center",
           padding: 0,
-          background: "#021428",
-          color: "#f2f2f3a6",
+          background: "#080058",
+          color: "#FFFFFF",
         }}
       >
         My Gym Buddy ©
@@ -86,41 +86,4 @@ const GymBuddy = () => {
   );
 };
 
-// "husky": {
-//   "hooks": {
-//     "pre-commit": "npx lint-staged"
-//   }
-// },
-// "lint-staged": {
-//   "src/**/*.{js,jsx,json,css,md}": [
-//     "prettier --write",
-//     "eslint --fix-dry-run"
-//   ]
-// }
-
-// const mapStateToProps = state => {
-//   return {
-//     currentUser: state.currentUser,
-//     loading: state.loading,
-//     userBuddies: state.userBuddies
-//   }
-// }
-
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     fetchingLoggedUser: () => { dispatch(fetchingLoggedUser()) },
-//     currentUserOnline: (user) => { dispatch(currentUserOnline(user)) },
-//     receiveBuddyMessages: (buddy_id, newMessage) => { dispatch(receiveBuddyMessages(buddy_id, newMessage)) }
-//   }
-// }
-
-// const withRouter = (ConnectedComponent) => {
-//   const withRouterComponent = (props) => (
-//     <Route render={routeProps =>
-//       <ConnectedComponent {...routeProps} {...props} />} />
-//   );
-//   return withRouterComponent;
-// };
-
-// export default withRouter(connect(mapStateToProps, mapDispatchToProps)(GymBuddy))
 export default GymBuddy;

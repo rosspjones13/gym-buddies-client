@@ -1,4 +1,5 @@
 import { apiUrl } from "../../constants/keys";
+import axios from "axios";
 
 export function currentBuddyMessages(buddy) {
   return { type: "CURRENT_BUDDY", buddy };
@@ -39,6 +40,7 @@ export function patchUserCheckin(user) {
       .then((user) => {
         dispatch(updateUserCheckin(user));
       });
+    // axios.patch(apiUrl + `users/${user.id}`, user)
   };
 }
 

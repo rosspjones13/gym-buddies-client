@@ -15,7 +15,7 @@ export function logoutUser() {
 
 export function currentUserOffline(user) {
   return async (dispatch) => {
-    axios.put(apiUrl + `users/${user.id}`, JSON.stringify(user));
+    axios.put(apiUrl + `users/${user.id}`, user);
     // fetch(apiUrl + `users/${user.id}`, {
     //   method: "PATCH",
     //   headers: {
@@ -36,10 +36,12 @@ export function fetchingLoginUser(username, password) {
     dispatch(loadingUser());
     return axios.post(
       apiUrl + "login",
-      JSON.stringify({
+      // JSON.stringify({
+      {
         username: username,
         password: password,
-      })
+      }
+      // })
     );
     // .then((res) => {
     //   if (res.data.authenticated) {
